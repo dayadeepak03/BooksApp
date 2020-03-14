@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:id="@+id/nav_sell"
+        android:icon="@drawable/sell"
+        android:title="Sell" />
+
+    <item android:id="@+id/nav_exchange"
+        android:icon="@drawable/exchange"
+        android:title="Exchange" />
+
+    <item android:id="@+id/nav_cart"
+        android:icon="@drawable/cart"
+        android:title="Cart" />
+
+    <item android:id="@+id/nav_login"
+        android:icon="@drawable/user"
+        android:title="Profile" />
+
+    <item android:id="@+id/nav_filters"
+        android:icon="@drawable/filter"
+        android:title="Filters" />
+</menu>
