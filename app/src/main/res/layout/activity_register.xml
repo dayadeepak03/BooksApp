@@ -14,7 +14,7 @@
     tools:context=".Activities.RegisterActivity">
 
     <EditText
-        android:id="@+id/editText3"
+        android:id="@+id/register_edtFname"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -23,6 +23,7 @@
         android:drawableRight="@drawable/ic_correct"
         android:inputType="textPersonName"
         android:paddingRight="10dp"
+        android:maxLength="30"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/textView9"
@@ -30,7 +31,7 @@
         app:layout_constraintVertical_bias="0.3" />
 
     <EditText
-        android:id="@+id/editText4"
+        android:id="@+id/register_edtLname"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -40,13 +41,14 @@
         android:paddingRight="10dp"
         android:drawableRight="@drawable/ic_correct"
         android:inputType="textPersonName"
+        android:maxLength="30"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toEndOf="@+id/textView9"
         app:layout_constraintTop_toBottomOf="@+id/divider5" />
 
     <EditText
-        android:id="@+id/editText5"
+        android:id="@+id/register_edtEmail"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -55,14 +57,14 @@
         android:background="@null"
         android:paddingRight="10dp"
         android:drawableRight="@drawable/ic_correct"
-        android:inputType="textPersonName"
+        android:inputType="textEmailAddress"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toEndOf="@+id/textView15"
         app:layout_constraintTop_toBottomOf="@+id/divider6" />
 
     <EditText
-        android:id="@+id/editText6"
+        android:id="@+id/register_edtPhoneNo"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -71,14 +73,15 @@
         android:background="@null"
         android:paddingRight="10dp"
         android:drawableRight="@drawable/ic_correct"
-        android:inputType="textPersonName"
+        android:inputType="numberDecimal"
+        android:maxLength="15"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toEndOf="@+id/textView16"
         app:layout_constraintTop_toBottomOf="@+id/divider7" />
 
     <EditText
-        android:id="@+id/editText7"
+        android:id="@+id/register_edtAddress"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -94,7 +97,7 @@
         app:layout_constraintTop_toBottomOf="@+id/divider8" />
 
     <EditText
-        android:id="@+id/editText8"
+        android:id="@+id/register_edtPostal"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -103,7 +106,8 @@
         android:background="@null"
         android:paddingRight="10dp"
         android:drawableRight="@drawable/ic_correct"
-        android:inputType="textPersonName"
+        android:inputType="numberDecimal"
+        android:maxLength="15"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/textView18"
         app:layout_constraintTop_toBottomOf="@+id/divider9" />
@@ -115,9 +119,9 @@
         android:layout_marginStart="10dp"
         android:text="First Name : "
         android:textSize="18sp"
-        app:layout_constraintBottom_toBottomOf="@+id/editText3"
+        app:layout_constraintBottom_toBottomOf="@+id/register_edtFname"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/editText3" />
+        app:layout_constraintTop_toTopOf="@+id/register_edtFname" />
 
     <TextView
         android:id="@+id/textView14"
@@ -126,9 +130,9 @@
         android:layout_marginStart="10dp"
         android:text="Last Name : "
         android:textSize="18sp"
-        app:layout_constraintBottom_toBottomOf="@+id/editText4"
+        app:layout_constraintBottom_toBottomOf="@+id/register_edtLname"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/editText4" />
+        app:layout_constraintTop_toTopOf="@+id/register_edtLname" />
 
     <TextView
         android:id="@+id/textView15"
@@ -137,9 +141,9 @@
         android:layout_marginStart="10dp"
         android:text="Email : "
         android:textSize="18sp"
-        app:layout_constraintBottom_toBottomOf="@+id/editText5"
+        app:layout_constraintBottom_toBottomOf="@+id/register_edtEmail"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/editText5" />
+        app:layout_constraintTop_toTopOf="@+id/register_edtEmail" />
 
     <TextView
         android:id="@+id/textView16"
@@ -148,9 +152,9 @@
         android:layout_marginStart="10dp"
         android:text="Phone Number : "
         android:textSize="18sp"
-        app:layout_constraintBottom_toBottomOf="@+id/editText6"
+        app:layout_constraintBottom_toBottomOf="@+id/register_edtPhoneNo"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/editText6" />
+        app:layout_constraintTop_toTopOf="@+id/register_edtPhoneNo" />
 
     <TextView
         android:id="@+id/textView17"
@@ -159,9 +163,9 @@
         android:layout_marginStart="10dp"
         android:text="Address : "
         android:textSize="18sp"
-        app:layout_constraintBottom_toBottomOf="@+id/editText7"
+        app:layout_constraintBottom_toBottomOf="@+id/register_edtAddress"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/editText7" />
+        app:layout_constraintTop_toTopOf="@+id/register_edtAddress" />
 
     <TextView
         android:id="@+id/textView18"
@@ -170,9 +174,9 @@
         android:layout_marginStart="10dp"
         android:text="Postal Code : "
         android:textSize="18sp"
-        app:layout_constraintBottom_toBottomOf="@+id/editText8"
+        app:layout_constraintBottom_toBottomOf="@+id/register_edtPostal"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/editText8" />
+        app:layout_constraintTop_toTopOf="@+id/register_edtPostal" />
 
     <View
         android:id="@+id/divider5"
@@ -184,7 +188,7 @@
         android:background="?android:attr/listDivider"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editText3" />
+        app:layout_constraintTop_toBottomOf="@+id/register_edtFname" />
 
     <View
         android:id="@+id/divider6"
@@ -197,7 +201,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editText4" />
+        app:layout_constraintTop_toBottomOf="@+id/register_edtLname" />
 
     <View
         android:id="@+id/divider7"
@@ -210,7 +214,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editText5" />
+        app:layout_constraintTop_toBottomOf="@+id/register_edtEmail" />
 
     <View
         android:id="@+id/divider8"
@@ -223,7 +227,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editText6" />
+        app:layout_constraintTop_toBottomOf="@+id/register_edtPhoneNo" />
 
     <View
         android:id="@+id/divider9"
@@ -236,7 +240,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editText7" />
+        app:layout_constraintTop_toBottomOf="@+id/register_edtAddress" />
 
     <View
         android:id="@+id/divider10"
@@ -249,10 +253,10 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editText8" />
+        app:layout_constraintTop_toBottomOf="@+id/register_edtPostal" />
 
     <ImageView
-        android:id="@+id/imageView4"
+        android:id="@+id/register_imgBack"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -270,11 +274,11 @@
         android:textColor="@color/logoColor2"
         android:textSize="24sp"
         android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="@+id/imageView4"
-        app:layout_constraintTop_toBottomOf="@+id/imageView4" />
+        app:layout_constraintStart_toStartOf="@+id/register_imgBack"
+        app:layout_constraintTop_toBottomOf="@+id/register_imgBack" />
 
     <Button
-        android:id="@+id/button3"
+        android:id="@+id/register_btnSignUp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
