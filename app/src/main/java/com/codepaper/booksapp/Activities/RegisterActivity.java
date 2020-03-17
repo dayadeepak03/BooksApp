@@ -58,6 +58,7 @@ public class RegisterActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(RegisterActivity.this,LoginActivity.class));
+                finish();
             }
         });
 
@@ -93,6 +94,18 @@ public class RegisterActivity extends AppCompatActivity {
                 {
                     edtPhone.setError("Phone No. is required");
                     edtPhone.requestFocus();
+                    return;
+                }
+                if(postal.equals(""))
+                {
+                    edtPostal.setError("Postal code is required");
+                    edtPostal.requestFocus();
+                    return;
+                }
+                if(address.equals(""))
+                {
+                    edtAddress.setError("Address is required");
+                    edtAddress.requestFocus();
                     return;
                 }
 
@@ -136,35 +149,39 @@ public class RegisterActivity extends AppCompatActivity {
                 pass = edtPass.getText().toString().trim();
                 confirmPass = edtConfirmPass.getText().toString().trim();
 
-                if(!pass.equals(""))
+                if(pass.equals(""))
                 {
-                    if(pass.length() < 6)
-                    {
-                        edtPass.setError("Password must be of minimum 6 characters length");
-                        edtPass.requestFocus();
-                        return;
-                    }
+                    edtPass.setError("Password is required");
+                    edtPass.requestFocus();
+                    return;
+                }
+                else if(pass.length() < 6)
+                {
+                    edtPass.setError("Password must be of minimum 6 characters length");
+                    edtPass.requestFocus();
+                    return;
+                }
+                else if (confirmPass.equals(""))
+                {
+                    edtConfirmPass.setError("Confirm Password is required");
+                    edtConfirmPass.requestFocus();
+                    return;
+                }
+                else if (!pass.equals(confirmPass))
+                {
+                    edtConfirmPass.setError("Password and confirm password don't match");
+                    edtConfirmPass.requestFocus();
+                    return;
+                }
+                else {
 
-                    if (confirmPass.equals(""))
-                    {
-                        edtConfirmPass.setError("Confirm Password is required");
-                        edtConfirmPass.requestFocus();
-                        return;
-                    }
-
-                    if (!pass.equals(confirmPass))
-                    {
-                        edtConfirmPass.setError("Password and confirm password don't match");
-                        edtConfirmPass.requestFocus();
-                        return;
-                    }
+                    User user = new User(fName, lName, email, phone, address, postal, pass);
+                    userDao.insertUser(user);
+                    Toast.makeText(RegisterActivity.this, "SuccessFully SignUp!!!", Toast.LENGTH_LONG).show();
+                    startActivity(new Intent(RegisterActivity.this, LoginActivity.class));
+                    dialog.cancel();
                 }
 
-                User user = new User(fName,lName,email,phone,address,postal,pass);
-                userDao.insertUser(user);
-                Toast.makeText(RegisterActivity.this, "SuccessFully SignUp!!!", Toast.LENGTH_SHORT).show();
-                startActivity(new Intent(RegisterActivity.this,LoginActivity.class));
-                dialog.cancel();
             }
         });
 

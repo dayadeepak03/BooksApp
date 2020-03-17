@@ -13,253 +13,119 @@
     android:background="@color/white"
     tools:context=".Activities.RegisterActivity">
 
+    <TextView
+        android:id="@+id/login_welcome_msg2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="@string/signup_welcome_txt"
+        android:textColor="@color/logoColor2"
+        android:textSize="24sp"
+        app:layout_constraintStart_toStartOf="@+id/textView12"
+        app:layout_constraintTop_toBottomOf="@+id/textView12" />
+
     <EditText
         android:id="@+id/register_edtFname"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"
-        android:background="@null"
-        android:drawableRight="@drawable/ic_correct"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="32dp"
+        android:background="@drawable/searchview_background"
+        android:drawableLeft="@drawable/ic_person"
+        android:drawablePadding="5dp"
+        android:hint="First Name"
         android:inputType="textPersonName"
-        android:paddingRight="10dp"
         android:maxLength="30"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:padding="12dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/textView9"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.3" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/login_welcome_msg2" />
 
     <EditText
         android:id="@+id/register_edtLname"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:background="@null"
-        android:paddingRight="10dp"
-        android:drawableRight="@drawable/ic_correct"
+        android:background="@drawable/searchview_background"
+        android:drawableLeft="@drawable/ic_person"
+        android:drawablePadding="5dp"
+        android:hint="Last name"
         android:inputType="textPersonName"
         android:maxLength="30"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toEndOf="@+id/textView9"
-        app:layout_constraintTop_toBottomOf="@+id/divider5" />
+        android:padding="12dp"
+        app:layout_constraintEnd_toEndOf="@+id/register_edtFname"
+        app:layout_constraintStart_toStartOf="@+id/register_edtFname"
+        app:layout_constraintTop_toBottomOf="@+id/register_edtFname" />
 
     <EditText
         android:id="@+id/register_edtEmail"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:background="@null"
-        android:paddingRight="10dp"
-        android:drawableRight="@drawable/ic_correct"
+        android:background="@drawable/searchview_background"
+        android:drawableLeft="@drawable/ic_email"
+        android:drawablePadding="5dp"
+        android:hint="Email-Id"
         android:inputType="textEmailAddress"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toEndOf="@+id/textView15"
-        app:layout_constraintTop_toBottomOf="@+id/divider6" />
+        android:padding="12dp"
+        app:layout_constraintEnd_toEndOf="@+id/register_edtLname"
+        app:layout_constraintStart_toStartOf="@+id/register_edtLname"
+        app:layout_constraintTop_toBottomOf="@+id/register_edtLname" />
 
     <EditText
         android:id="@+id/register_edtPhoneNo"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:background="@null"
-        android:paddingRight="10dp"
-        android:drawableRight="@drawable/ic_correct"
+        android:background="@drawable/searchview_background"
+        android:drawableLeft="@drawable/ic_phone"
+        android:drawablePadding="5dp"
+        android:hint="Phone Number"
         android:inputType="numberDecimal"
         android:maxLength="15"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toEndOf="@+id/textView16"
-        app:layout_constraintTop_toBottomOf="@+id/divider7" />
+        android:padding="12dp"
+        app:layout_constraintEnd_toEndOf="@+id/register_edtEmail"
+        app:layout_constraintStart_toStartOf="@+id/register_edtEmail"
+        app:layout_constraintTop_toBottomOf="@+id/register_edtEmail" />
 
     <EditText
         android:id="@+id/register_edtAddress"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:background="@null"
-        android:paddingRight="10dp"
-        android:drawableRight="@drawable/ic_correct"
-        android:inputType="textPersonName"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toEndOf="@+id/textView17"
-        app:layout_constraintTop_toBottomOf="@+id/divider8" />
+        android:background="@drawable/searchview_background"
+        android:drawableLeft="@drawable/ic_location"
+        android:drawablePadding="5dp"
+        android:hint="Address"
+        android:inputType="textMultiLine"
+        android:lines="2"
+        android:padding="12dp"
+        app:layout_constraintEnd_toEndOf="@+id/register_edtPostal"
+        app:layout_constraintStart_toStartOf="@+id/register_edtPostal"
+        app:layout_constraintTop_toBottomOf="@+id/register_edtPostal" />
 
     <EditText
         android:id="@+id/register_edtPostal"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:background="@null"
-        android:paddingRight="10dp"
-        android:drawableRight="@drawable/ic_correct"
-        android:inputType="numberDecimal"
-        android:maxLength="15"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/textView18"
-        app:layout_constraintTop_toBottomOf="@+id/divider9" />
-
-    <TextView
-        android:id="@+id/textView9"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
-        android:text="First Name : "
-        android:textSize="18sp"
-        app:layout_constraintBottom_toBottomOf="@+id/register_edtFname"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/register_edtFname" />
-
-    <TextView
-        android:id="@+id/textView14"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
-        android:text="Last Name : "
-        android:textSize="18sp"
-        app:layout_constraintBottom_toBottomOf="@+id/register_edtLname"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/register_edtLname" />
-
-    <TextView
-        android:id="@+id/textView15"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
-        android:text="Email : "
-        android:textSize="18sp"
-        app:layout_constraintBottom_toBottomOf="@+id/register_edtEmail"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/register_edtEmail" />
-
-    <TextView
-        android:id="@+id/textView16"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
-        android:text="Phone Number : "
-        android:textSize="18sp"
-        app:layout_constraintBottom_toBottomOf="@+id/register_edtPhoneNo"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/register_edtPhoneNo" />
-
-    <TextView
-        android:id="@+id/textView17"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
-        android:text="Address : "
-        android:textSize="18sp"
-        app:layout_constraintBottom_toBottomOf="@+id/register_edtAddress"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/register_edtAddress" />
-
-    <TextView
-        android:id="@+id/textView18"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
-        android:text="Postal Code : "
-        android:textSize="18sp"
-        app:layout_constraintBottom_toBottomOf="@+id/register_edtPostal"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/register_edtPostal" />
-
-    <View
-        android:id="@+id/divider5"
-        android:layout_width="0dp"
-        android:layout_height="1dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:background="?android:attr/listDivider"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/register_edtFname" />
-
-    <View
-        android:id="@+id/divider6"
-        android:layout_width="0dp"
-        android:layout_height="1dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:background="?android:attr/listDivider"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/register_edtLname" />
-
-    <View
-        android:id="@+id/divider7"
-        android:layout_width="0dp"
-        android:layout_height="1dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:background="?android:attr/listDivider"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/register_edtEmail" />
-
-    <View
-        android:id="@+id/divider8"
-        android:layout_width="0dp"
-        android:layout_height="1dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:background="?android:attr/listDivider"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent"
+        android:background="@drawable/searchview_background"
+        android:drawableLeft="@drawable/ic_postal"
+        android:drawablePadding="5dp"
+        android:hint="Postal Code"
+        android:inputType="textPersonName"
+        android:maxLength="8"
+        android:padding="12dp"
+        app:layout_constraintEnd_toEndOf="@+id/register_edtPhoneNo"
+        app:layout_constraintStart_toStartOf="@+id/register_edtPhoneNo"
         app:layout_constraintTop_toBottomOf="@+id/register_edtPhoneNo" />
-
-    <View
-        android:id="@+id/divider9"
-        android:layout_width="0dp"
-        android:layout_height="1dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:background="?android:attr/listDivider"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/register_edtAddress" />
-
-    <View
-        android:id="@+id/divider10"
-        android:layout_width="0dp"
-        android:layout_height="1dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:background="?android:attr/listDivider"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/register_edtPostal" />
 
     <ImageView
         android:id="@+id/register_imgBack"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
+        android:layout_marginStart="24dp"
         android:layout_marginTop="16dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -269,26 +135,26 @@
         android:id="@+id/textView12"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="24dp"
         android:text="Register"
-        android:textColor="@color/logoColor2"
+        android:textColor="@color/TextColor"
         android:textSize="24sp"
         android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="@+id/register_imgBack"
+        app:layout_constraintStart_toStartOf="@+id/register_edtFname"
         app:layout_constraintTop_toBottomOf="@+id/register_imgBack" />
 
     <Button
         android:id="@+id/register_btnSignUp"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        android:layout_marginBottom="24dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginBottom="32dp"
         android:background="@drawable/login_background"
         android:text="Sign Up"
         android:textColor="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/divider10" />
+        app:layout_constraintEnd_toEndOf="@+id/register_edtAddress"
+        app:layout_constraintStart_toStartOf="@+id/register_edtAddress"
+        app:layout_constraintTop_toBottomOf="@+id/register_edtAddress" />
 </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>

@@ -64,16 +64,17 @@ public class MainActivity extends AppCompatActivity {
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
 
                 switch (menuItem.getItemId()){
-                    case R.id.nav_sell:
+                    case R.id.nav_home:
                         getSupportFragmentManager().beginTransaction().replace(R.id.frameContainer,booksFragment).commit();
                         return true;
-                    case R.id.nav_exchange:
+                    /*case R.id.nav_exchange:
                         getSupportFragmentManager().beginTransaction().replace(R.id.frameContainer,booksFragment).commit();
-                        return true;
+                        return true;*/
                     case R.id.nav_cart:
                         getSupportFragmentManager().beginTransaction().replace(R.id.frameContainer,cartFragment).commit();
                         return true;
                     case R.id.nav_login:
+
                         startActivity(new Intent(MainActivity.this,LoginActivity.class));
                         return true;
                     case R.id.nav_filters:
@@ -84,7 +85,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        bottomNavigationView.setSelectedItemId(R.id.nav_sell);
+        bottomNavigationView.setSelectedItemId(R.id.nav_home);
     }
 
     public void OpenFilterDialog() {

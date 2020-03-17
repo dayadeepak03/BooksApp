@@ -12,6 +12,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.codepaper.booksapp.Database.DAO.UserDao;
@@ -30,35 +32,31 @@ import io.reactivex.schedulers.Schedulers;
 
 public class LoginActivity extends AppCompatActivity {
 
-    Toolbar toolbar;
-    Button btnSignUp,btnLogin;
+    Button btnLogin;
+    TextView btnSignUp,txtForgot;
     UserDao db;
     BookDatabase dataBase;
     EditText edtUName,edtPass;
     String email,password;
+    ImageView btnBack;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-
         initView();
     }
 
     private void initView() {
-        toolbar = findViewById(R.id.login_toolbar);
-        btnSignUp = findViewById(R.id.login_btnSignUp);
+        btnSignUp = findViewById(R.id.login_txtSignUp);
         btnLogin = findViewById(R.id.login_btnLogin);
         edtUName = findViewById(R.id.login_edtUName);
         edtPass = findViewById(R.id.login_edtPass);
+        txtForgot = findViewById(R.id.login_txtForgot);
+        btnBack = findViewById(R.id.login_imgBack);
         implementView();
     }
 
     private void implementView() {
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
-        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_back);
-        getSupportActionBar().setTitle("");
 
         dataBase = Room.databaseBuilder(this, BookDatabase.class, "mi-database.db")
                 .allowMainThreadQueries()
@@ -104,6 +102,21 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(LoginActivity.this,RegisterActivity.class));
+            }
+        });
+
+        txtForgot.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(LoginActivity.this, "Forgot Password!!", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        btnBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(LoginActivity.this,MainActivity.class));
+                finish();
             }
         });
     }

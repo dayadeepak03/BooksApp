@@ -3,4 +3,6 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="login_welcome_txt">Hello there !\nWelcome Back</string>
+    <string name="signup_welcome_txt">Hello there !\nWelcome to you</string>
 </resources>

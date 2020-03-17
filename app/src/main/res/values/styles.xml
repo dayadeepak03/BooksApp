@@ -22,4 +22,5 @@
         <item name="android:statusBarColor">@color/logoColor2</item>
     </style>
 
+
 </resources>
