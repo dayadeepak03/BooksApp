@@ -59,4 +59,7 @@ dependencies {
 
     //PasswordToggle
     implementation 'com.github.scottyab:showhidepasswordedittext:0.8'
+
+    //CircleImageView
+    implementation 'de.hdodenhof:circleimageview:3.0.0'
 }

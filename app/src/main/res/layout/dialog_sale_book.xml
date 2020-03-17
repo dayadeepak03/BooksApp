@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:layout_margin="30dp"
+    app:cardBackgroundColor="@color/white"
+    app:cardCornerRadius="10dp">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="10dp">
+
+        <EditText
+            android:id="@+id/dialog_sale_book_txtTitle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/searchview_background"
+            android:hint="Title"
+            android:inputType="textPersonName"
+            android:maxLength="30"
+            android:padding="10dp"
+            app:layout_constraintEnd_toEndOf="@+id/dialog_sale_book_txtAuthor"
+            app:layout_constraintStart_toStartOf="@+id/dialog_sale_book_txtAuthor"
+            app:layout_constraintTop_toBottomOf="@+id/textView5" />
+
+        <EditText
+            android:id="@+id/dialog_sale_book_txtAuthor"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:background="@drawable/searchview_background"
+            android:hint="Author"
+            android:inputType="textPersonName"
+            android:maxLength="30"
+            android:padding="10dp"
+            app:layout_constraintEnd_toEndOf="@+id/dialog_sale_book_txtEdition"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="@+id/dialog_sale_book_txtEdition"
+            app:layout_constraintTop_toBottomOf="@+id/dialog_sale_book_txtTitle" />
+
+        <EditText
+            android:id="@+id/dialog_sale_book_txtISBN"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:background="@drawable/searchview_background"
+            android:hint="ISBN"
+            android:inputType="textPersonName"
+            android:maxLength="30"
+            android:padding="10dp"
+            app:layout_constraintEnd_toEndOf="@+id/dialog_sale_book_spnCondition"
+            app:layout_constraintStart_toStartOf="@+id/dialog_sale_book_spnCondition"
+            app:layout_constraintTop_toBottomOf="@+id/dialog_sale_book_txtEdition" />
+
+        <EditText
+            android:id="@+id/dialog_sale_book_txtPrice"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:background="@drawable/searchview_background"
+            android:hint="Price"
+            android:inputType="textPersonName"
+            android:maxLength="30"
+            android:padding="10dp"
+            app:layout_constraintEnd_toEndOf="@+id/dialog_sale_book_spnCondition"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="@+id/dialog_sale_book_spnCondition"
+            app:layout_constraintTop_toBottomOf="@+id/dialog_sale_book_spnCondition" />
+
+        <EditText
+            android:id="@+id/dialog_sale_book_txtEdition"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:background="@drawable/searchview_background"
+            android:hint="Edition"
+            android:inputType="textPersonName"
+            android:maxLength="30"
+            android:padding="10dp"
+            app:layout_constraintEnd_toEndOf="@+id/dialog_sale_book_txtISBN"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="@+id/dialog_sale_book_txtISBN"
+            app:layout_constraintTop_toBottomOf="@+id/dialog_sale_book_txtAuthor" />
+
+        <ImageView
+            android:id="@+id/dialog_sale_book_imgClose"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/close" />
+
+        <Spinner
+            android:id="@+id/dialog_sale_book_spnCondition"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="10dp"
+            android:background="@drawable/spinner_background"
+            android:entries="@array/select_condition"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.105"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/dialog_sale_book_txtISBN">
+
+        </Spinner>
+
+        <Button
+            android:id="@+id/dialog_sale_book_btnNext"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="24dp"
+            android:layout_marginEnd="24dp"
+            android:layout_marginBottom="24dp"
+            android:background="@drawable/login_background"
+            android:text="Save"
+            android:textColor="@color/white"
+            android:textStyle="italic"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/dialog_sale_book_spnCondition"
+            app:layout_constraintStart_toStartOf="@+id/dialog_sale_book_spnCondition"
+            app:layout_constraintTop_toBottomOf="@+id/dialog_sale_book_txtPrice" />
+
+        <TextView
+            android:id="@+id/textView5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Tell us about your Book"
+            android:textColor="@color/logoColor2"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/dialog_sale_book_imgClose" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.cardview.widget.CardView>

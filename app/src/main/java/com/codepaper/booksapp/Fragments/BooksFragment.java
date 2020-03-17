@@ -17,12 +17,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.TextView;
 
-import com.codepaper.booksapp.Activities.MainActivity;
 import com.codepaper.booksapp.Adapter.BookListAdapter;
 import com.codepaper.booksapp.Model.BookListModel;
 import com.codepaper.booksapp.R;
-import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,6 +35,8 @@ public class BooksFragment extends Fragment {
     List<BookListModel> bookListModelList = new ArrayList<>();;
     BookListAdapter adapter;
     EditText edtSearch;
+    TextView homeHeading;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -48,6 +49,7 @@ public class BooksFragment extends Fragment {
     private void initView() {
         recyclerView = view.findViewById(R.id.home_recycler);
         edtSearch = view.findViewById(R.id.edt_search);
+        homeHeading = view.findViewById(R.id.home_heading);
 
         implementView();
     }

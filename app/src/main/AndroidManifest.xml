@@ -9,13 +9,16 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Activities.RegisterActivity"
-            android:theme="@style/Login">
-        </activity>
+        <activity android:name=".Activities.BookExchangeActivity"></activity>
+        <activity
+            android:name=".Activities.BookActivity"
+            android:theme="@style/Login"></activity>
+        <activity
+            android:name=".Activities.RegisterActivity"
+            android:theme="@style/Login" />
         <activity
             android:name=".Activities.LoginActivity"
-            android:theme="@style/Login">
-        </activity>
+            android:theme="@style/Login" />
         <activity
             android:name=".Activities.MainActivity"
             android:theme="@style/Login">

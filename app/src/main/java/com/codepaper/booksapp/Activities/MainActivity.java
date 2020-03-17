@@ -28,12 +28,16 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.codepaper.booksapp.Adapter.BookListAdapter;
+import com.codepaper.booksapp.Database.ModelDB.User;
 import com.codepaper.booksapp.Fragments.BooksFragment;
 import com.codepaper.booksapp.Fragments.CartFragment;
+import com.codepaper.booksapp.Fragments.ProfileFragment;
 import com.codepaper.booksapp.Model.BookListModel;
 import com.codepaper.booksapp.R;
+import com.codepaper.booksapp.Storage.SharedPrefManager;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -43,6 +47,9 @@ public class MainActivity extends AppCompatActivity {
     BottomNavigationView bottomNavigationView;
     BooksFragment booksFragment = new BooksFragment();
     CartFragment cartFragment = new CartFragment();
+    ProfileFragment profileFragment = new ProfileFragment();
+    User user;
+    SharedPrefManager sharedPrefManager;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,11 +60,20 @@ public class MainActivity extends AppCompatActivity {
 
     private void initView() {
         bottomNavigationView = findViewById(R.id.home_bottomNavigation);
-
+        user = SharedPrefManager.getInstance(MainActivity.this).getUser();
         implementView();
     }
 
     private void implementView() {
+
+        if(user.getFname()==null)
+         {
+             bottomNavigationView.getMenu().removeItem(R.id.nav_profile);
+         }
+        else
+        {
+            bottomNavigationView.getMenu().removeItem(R.id.nav_login);
+        }
 
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
@@ -67,15 +83,14 @@ public class MainActivity extends AppCompatActivity {
                     case R.id.nav_home:
                         getSupportFragmentManager().beginTransaction().replace(R.id.frameContainer,booksFragment).commit();
                         return true;
-                    /*case R.id.nav_exchange:
-                        getSupportFragmentManager().beginTransaction().replace(R.id.frameContainer,booksFragment).commit();
-                        return true;*/
                     case R.id.nav_cart:
                         getSupportFragmentManager().beginTransaction().replace(R.id.frameContainer,cartFragment).commit();
                         return true;
                     case R.id.nav_login:
-
                         startActivity(new Intent(MainActivity.this,LoginActivity.class));
+                        return true;
+                    case R.id.nav_profile:
+                        getSupportFragmentManager().beginTransaction().replace(R.id.frameContainer,profileFragment).commit();
                         return true;
                     case R.id.nav_filters:
                         OpenFilterDialog();
@@ -122,7 +137,7 @@ public class MainActivity extends AppCompatActivity {
         btnApply.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                dialog.cancel();
             }
         });
 

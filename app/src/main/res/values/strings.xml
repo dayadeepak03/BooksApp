@@ -5,4 +5,38 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="login_welcome_txt">Hello there !\nWelcome Back</string>
     <string name="signup_welcome_txt">Hello there !\nWelcome to you</string>
+
+    <string-array name="author">
+        <item>Any Author</item>
+        <item>Don Normon</item>
+        <item>ABC</item>
+        <item>XYZ</item>
+    </string-array>
+
+    <string-array name="price">
+        <item>Any Price</item>
+        <item>$0-100</item>
+        <item>$100-200</item>
+        <item>$200-500</item>
+    </string-array>
+
+    <string-array name="condition">
+        <item>Any Condition</item>
+        <item>Good</item>
+        <item>Average</item>
+        <item>Brand New</item>
+    </string-array>
+
+    <string-array name="relevance">
+        <item>Relevance</item>
+        <item>Sell</item>
+        <item>Exchange</item>
+    </string-array>
+
+    <string-array name="select_condition">
+        <item>Select Condition</item>
+        <item>Good</item>
+        <item>Average</item>
+        <item>Brand New</item>
+    </string-array>
 </resources>
