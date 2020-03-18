@@ -8,7 +8,7 @@
     tools:context=".Activities.BookExchangeActivity">
 
     <androidx.appcompat.widget.Toolbar
-        android:id="@+id/book_sale_toolbar"
+        android:id="@+id/book_exchange_toolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         app:layout_constraintEnd_toEndOf="parent"
@@ -26,7 +26,7 @@
             android:textSize="16sp"/>
 
         <ImageView
-            android:id="@+id/book_sale_imgAdd"
+            android:id="@+id/book_exchange_imgAdd"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="right"
@@ -35,12 +35,13 @@
     </androidx.appcompat.widget.Toolbar>
 
     <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/book_exchange_recycler"
         android:layout_width="409dp"
         android:layout_height="673dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        tools:listitem="@layout/item_book_list"
-        app:layout_constraintTop_toBottomOf="@+id/book_sale_toolbar" />
+        app:layout_constraintTop_toBottomOf="@+id/book_exchange_toolbar"
+        tools:listitem="@layout/item_book_list" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

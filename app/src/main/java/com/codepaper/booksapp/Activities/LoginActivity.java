@@ -19,6 +19,7 @@ import android.widget.Toast;
 import com.codepaper.booksapp.Database.DAO.UserDao;
 import com.codepaper.booksapp.Database.DataSource.BookDatabase;
 import com.codepaper.booksapp.Database.ModelDB.User;
+import com.codepaper.booksapp.Model.UserResponse;
 import com.codepaper.booksapp.R;
 import com.codepaper.booksapp.Storage.SharedPrefManager;
 
@@ -83,11 +84,12 @@ public class LoginActivity extends AppCompatActivity {
                 }
                 else
                 {
-
                     User user = db.getUser(email, password);
                     if (user != null) {
                         SharedPrefManager.getInstance(LoginActivity.this).saveUser(user);
                         Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                        UserResponse userResponse = new UserResponse(user.getUser_id());
+                        SharedPrefManager.getInstance(LoginActivity.this).saveUserId(userResponse);
                         intent.putExtra("id",user.getUser_id());
                         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                         startActivity(intent);

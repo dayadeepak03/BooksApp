@@ -21,6 +21,7 @@ public class LogoutMethod {
     public void logOutApp(View view){
 
                 SharedPrefManager.getInstance(mContext).clear();
+                SharedPrefManager.getInstance(mContext).clearUserId();
                 Intent intent = new Intent(mContext, MainActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 Toast.makeText(mContext, "You have successfully logout!!", Toast.LENGTH_SHORT).show();

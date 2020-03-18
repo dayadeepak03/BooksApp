@@ -18,6 +18,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.codepaper.booksapp.Activities.BookActivity;
+import com.codepaper.booksapp.Activities.BookExchangeActivity;
 import com.codepaper.booksapp.Database.ModelDB.User;
 import com.codepaper.booksapp.R;
 import com.codepaper.booksapp.Storage.SharedPrefManager;
@@ -68,6 +69,13 @@ public class ProfileFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(getActivity(), BookActivity.class));
+            }
+        });
+
+        txtExchange.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getActivity(), BookExchangeActivity.class));
             }
         });
     }

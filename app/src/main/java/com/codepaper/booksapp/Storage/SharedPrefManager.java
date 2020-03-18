@@ -4,10 +4,12 @@ import android.content.Context;
 import android.content.SharedPreferences;
 
 import com.codepaper.booksapp.Database.ModelDB.User;
+import com.codepaper.booksapp.Model.UserResponse;
 
 public class SharedPrefManager {
 
     private static final String SHARED_PREF_NAME = "book_user";
+    private static final String SHARED_PREF_USER = "my_shared";
     private static SharedPrefManager mInstance;
     private Context mContext;
 
@@ -58,6 +60,30 @@ public class SharedPrefManager {
 
     public void clear(){
         SharedPreferences sharedPreferences = mContext.getSharedPreferences(SHARED_PREF_NAME,Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+
+        editor.clear();
+        editor.apply();
+    }
+
+    public void saveUserId(UserResponse userResponse){
+
+        SharedPreferences sharedPreferences = mContext.getSharedPreferences(SHARED_PREF_USER,Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+
+        editor.putInt("user_id", userResponse.getUser_id());
+        editor.apply();
+    }
+
+    public UserResponse getUserId(){
+        SharedPreferences sharedPreferences = mContext.getSharedPreferences(SHARED_PREF_USER,Context.MODE_PRIVATE);
+        return new UserResponse(
+                sharedPreferences.getInt("user_id",-1)
+        );
+    }
+
+    public void clearUserId(){
+        SharedPreferences sharedPreferences = mContext.getSharedPreferences(SHARED_PREF_USER,Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
 
         editor.clear();

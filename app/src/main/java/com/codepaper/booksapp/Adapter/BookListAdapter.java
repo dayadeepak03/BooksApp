@@ -19,6 +19,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.codepaper.booksapp.Database.ModelDB.Post;
 import com.codepaper.booksapp.Model.BookListModel;
 import com.codepaper.booksapp.R;
 import com.codepaper.booksapp.Utils.BookListFilter;
@@ -29,11 +30,11 @@ import java.util.List;
 public class BookListAdapter extends RecyclerView.Adapter<BookListAdapter.BookListViewHolder> implements Filterable {
 
     Context mContext;
-    public List<BookListModel> bookModelList,filterList;
-    BookListModel bookListModel;
+    public List<Post> bookModelList,filterList;
+    Post bookListModel;
     BookListFilter filter;
 
-    public BookListAdapter(Context mContext, List<BookListModel> bookModelList) {
+    public BookListAdapter(Context mContext, List<Post> bookModelList) {
         this.mContext = mContext;
         this.bookModelList = bookModelList;
         this.filterList = bookModelList;
@@ -51,36 +52,29 @@ public class BookListAdapter extends RecyclerView.Adapter<BookListAdapter.BookLi
     public void onBindViewHolder(@NonNull BookListViewHolder holder, final int position) {
         bookListModel = bookModelList.get(position);
 
-        Picasso.with(mContext)
+        /*Picasso.with(mContext)
                 .load(bookListModel.getImgName())
                 .placeholder(R.drawable.load)
-                .into(holder.imgBook);
+                .into(holder.imgBook);*/
 
-        holder.txtBookName.setText(bookListModel.getBookName());
+        holder.txtBookName.setText(bookListModel.getTitle());
         holder.txtAuthor.setText(bookListModel.getAuthor());
 
-        if(bookListModel.getSell().equals("true"))
+        if(bookListModel.getPost_type().equals("sell"))
         {
             holder.imgSell.setVisibility(View.VISIBLE);
+            holder.imgExchange.setVisibility(View.GONE);
         }
         else
-        {
-            holder.imgSell.setVisibility(View.GONE);
-        }
-
-        if(bookListModel.getExchange().equals("true"))
         {
             holder.imgExchange.setVisibility(View.VISIBLE);
-        }
-        else
-        {
-            holder.imgExchange.setVisibility(View.GONE);
+            holder.imgSell.setVisibility(View.GONE);
         }
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                OpenShowBookDialog(bookModelList.get(position).getBookName(),bookModelList.get(position).getAuthor());
+                OpenShowBookDialog(bookModelList.get(position).getTitle(),bookModelList.get(position).getAuthor(),bookModelList.get(position).getPrice());
             }
         });
     }
@@ -123,7 +117,7 @@ public class BookListAdapter extends RecyclerView.Adapter<BookListAdapter.BookLi
         return position;
     }
 
-    public void OpenShowBookDialog(String book,String author) {
+    public void OpenShowBookDialog(String book,String author,double p) {
 
         TextView txtBookName,txtAuthor;
         Button btnBuy,btnLocation,btnDetails;
@@ -149,6 +143,7 @@ public class BookListAdapter extends RecyclerView.Adapter<BookListAdapter.BookLi
 
         txtBookName.setText(book);
         txtAuthor.setText("By : "+author);
+        btnBuy.setText("BUY"+" | $"+p);
 
         btnLocation.setOnClickListener(new View.OnClickListener() {
             @Override

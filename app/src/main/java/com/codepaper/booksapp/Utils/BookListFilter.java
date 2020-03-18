@@ -3,6 +3,7 @@ package com.codepaper.booksapp.Utils;
 import android.widget.Filter;
 
 import com.codepaper.booksapp.Adapter.BookListAdapter;
+import com.codepaper.booksapp.Database.ModelDB.Post;
 import com.codepaper.booksapp.Model.BookListModel;
 
 import java.util.ArrayList;
@@ -11,9 +12,9 @@ import java.util.List;
 public class BookListFilter extends Filter {
 
    private BookListAdapter adapter;
-   private List<BookListModel> filterList;
+   private List<Post> filterList;
 
-    public BookListFilter(BookListAdapter adapter, List<BookListModel> filterList) {
+    public BookListFilter(BookListAdapter adapter, List<Post> filterList) {
         this.adapter = adapter;
         this.filterList = filterList;
     }
@@ -26,10 +27,10 @@ public class BookListFilter extends Filter {
         {
             constraint=constraint.toString().toLowerCase();
 
-            List<BookListModel> filteredPlayers= new ArrayList<>();
+            List<Post> filteredPlayers= new ArrayList<>();
             for (int i=0;i<filterList.size();i++)
             {
-                if(filterList.get(i).getBookName().toLowerCase().contains(constraint) || filterList.get(i).getAuthor().toLowerCase().contains(constraint))
+                if(filterList.get(i).getTitle().toLowerCase().contains(constraint) || filterList.get(i).getAuthor().toLowerCase().contains(constraint))
                 {
                     filteredPlayers.add(filterList.get(i));
                 }
@@ -46,7 +47,7 @@ public class BookListFilter extends Filter {
 
     @Override
     protected void publishResults(CharSequence constraint, FilterResults results) {
-        adapter.bookModelList = (List<BookListModel>) results.values;
+        adapter.bookModelList = (List<Post>) results.values;
         adapter.notifyDataSetChanged();
     }
 }

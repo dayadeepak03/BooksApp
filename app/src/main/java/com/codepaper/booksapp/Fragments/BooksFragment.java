@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.room.Room;
 
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -20,6 +21,10 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.codepaper.booksapp.Adapter.BookListAdapter;
+import com.codepaper.booksapp.Database.DAO.PostDao;
+import com.codepaper.booksapp.Database.DataSource.BookDatabase;
+import com.codepaper.booksapp.Database.ModelDB.Post;
+import com.codepaper.booksapp.Database.ModelDB.User;
 import com.codepaper.booksapp.Model.BookListModel;
 import com.codepaper.booksapp.R;
 
@@ -32,10 +37,12 @@ import java.util.List;
 public class BooksFragment extends Fragment {
     View view;
     RecyclerView recyclerView;
-    List<BookListModel> bookListModelList = new ArrayList<>();;
+    List<Post> bookListModelList = new ArrayList<>();;
     BookListAdapter adapter;
     EditText edtSearch;
     TextView homeHeading;
+    BookDatabase dataBase;
+    PostDao db;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -55,6 +62,12 @@ public class BooksFragment extends Fragment {
     }
 
     private void implementView() {
+
+        dataBase = Room.databaseBuilder(getActivity(), BookDatabase.class, "mi-database.db")
+                .allowMainThreadQueries()
+                .build();
+
+        db = dataBase.getPostDao();
 
         RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(getActivity(), 2);
         recyclerView.setLayoutManager(mLayoutManager);
@@ -83,12 +96,8 @@ public class BooksFragment extends Fragment {
 
     private void fillRecyclerView() {
 
-        bookListModelList.add(new BookListModel(R.drawable.cover1,"The design of Everyday things","Don Normon","true","false"));
-        bookListModelList.add(new BookListModel(R.drawable.cover2,"Boing versus Airbus","John Newhouse","false","true"));
-        bookListModelList.add(new BookListModel(R.drawable.cover3,"The design of Everyday things","Deepak Daya","true","true"));
-        bookListModelList.add(new BookListModel(R.drawable.cover4,"The design of Everyday things","Deepak Daya","true","false"));
-        bookListModelList.add(new BookListModel(R.drawable.cover1,"The design of Everyday things","Deepak Daya","true","true"));
-        bookListModelList.add(new BookListModel(R.drawable.cover2,"The design of Everyday things","Deepak Daya","true","false"));
+        Post post = db.getPost();
+        bookListModelList.add(post);
 
         adapter = new BookListAdapter(getActivity(),bookListModelList);
         recyclerView.setAdapter(adapter);

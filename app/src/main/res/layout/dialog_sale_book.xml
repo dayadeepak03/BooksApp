@@ -15,7 +15,7 @@
         android:padding="10dp">
 
         <EditText
-            android:id="@+id/dialog_sale_book_txtTitle"
+            android:id="@+id/dialog_sale_book_edtTitle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
@@ -24,12 +24,12 @@
             android:inputType="textPersonName"
             android:maxLength="30"
             android:padding="10dp"
-            app:layout_constraintEnd_toEndOf="@+id/dialog_sale_book_txtAuthor"
-            app:layout_constraintStart_toStartOf="@+id/dialog_sale_book_txtAuthor"
+            app:layout_constraintEnd_toEndOf="@+id/dialog_sale_book_edtAuthor"
+            app:layout_constraintStart_toStartOf="@+id/dialog_sale_book_edtAuthor"
             app:layout_constraintTop_toBottomOf="@+id/textView5" />
 
         <EditText
-            android:id="@+id/dialog_sale_book_txtAuthor"
+            android:id="@+id/dialog_sale_book_edtAuthor"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
@@ -38,13 +38,13 @@
             android:inputType="textPersonName"
             android:maxLength="30"
             android:padding="10dp"
-            app:layout_constraintEnd_toEndOf="@+id/dialog_sale_book_txtEdition"
+            app:layout_constraintEnd_toEndOf="@+id/dialog_sale_book_edtEdition"
             app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="@+id/dialog_sale_book_txtEdition"
-            app:layout_constraintTop_toBottomOf="@+id/dialog_sale_book_txtTitle" />
+            app:layout_constraintStart_toStartOf="@+id/dialog_sale_book_edtEdition"
+            app:layout_constraintTop_toBottomOf="@+id/dialog_sale_book_edtTitle" />
 
         <EditText
-            android:id="@+id/dialog_sale_book_txtISBN"
+            android:id="@+id/dialog_sale_book_edtISBN"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
@@ -55,10 +55,10 @@
             android:padding="10dp"
             app:layout_constraintEnd_toEndOf="@+id/dialog_sale_book_spnCondition"
             app:layout_constraintStart_toStartOf="@+id/dialog_sale_book_spnCondition"
-            app:layout_constraintTop_toBottomOf="@+id/dialog_sale_book_txtEdition" />
+            app:layout_constraintTop_toBottomOf="@+id/dialog_sale_book_edtEdition" />
 
         <EditText
-            android:id="@+id/dialog_sale_book_txtPrice"
+            android:id="@+id/dialog_sale_book_edtPrice"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
@@ -73,7 +73,7 @@
             app:layout_constraintTop_toBottomOf="@+id/dialog_sale_book_spnCondition" />
 
         <EditText
-            android:id="@+id/dialog_sale_book_txtEdition"
+            android:id="@+id/dialog_sale_book_edtEdition"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
@@ -82,19 +82,19 @@
             android:inputType="textPersonName"
             android:maxLength="30"
             android:padding="10dp"
-            app:layout_constraintEnd_toEndOf="@+id/dialog_sale_book_txtISBN"
+            app:layout_constraintEnd_toEndOf="@+id/dialog_sale_book_edtISBN"
             app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="@+id/dialog_sale_book_txtISBN"
-            app:layout_constraintTop_toBottomOf="@+id/dialog_sale_book_txtAuthor" />
+            app:layout_constraintStart_toStartOf="@+id/dialog_sale_book_edtISBN"
+            app:layout_constraintTop_toBottomOf="@+id/dialog_sale_book_edtAuthor" />
 
         <ImageView
             android:id="@+id/dialog_sale_book_imgClose"
             android:layout_width="20dp"
             android:layout_height="20dp"
-            android:layout_marginTop="8dp"
             android:layout_marginEnd="8dp"
+            app:layout_constraintBottom_toBottomOf="@+id/textView5"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/textView5"
             app:srcCompat="@drawable/close" />
 
         <Spinner
@@ -109,7 +109,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.105"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/dialog_sale_book_txtISBN">
+            app:layout_constraintTop_toBottomOf="@+id/dialog_sale_book_edtISBN">
 
         </Spinner>
 
@@ -128,19 +128,31 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="@+id/dialog_sale_book_spnCondition"
             app:layout_constraintStart_toStartOf="@+id/dialog_sale_book_spnCondition"
-            app:layout_constraintTop_toBottomOf="@+id/dialog_sale_book_txtPrice" />
+            app:layout_constraintTop_toBottomOf="@+id/dialog_sale_book_imgUpload" />
 
         <TextView
             android:id="@+id/textView5"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
             android:text="Tell us about your Book"
             android:textColor="@color/logoColor2"
-            android:textSize="24sp"
+            android:textSize="18sp"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/dialog_sale_book_imgClose" />
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/dialog_sale_book_imgUpload"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_marginTop="16dp"
+            android:scaleType="fitXY"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/dialog_sale_book_edtPrice"
+            app:layout_constraintTop_toBottomOf="@+id/dialog_sale_book_edtPrice"
+            app:srcCompat="@drawable/books_upload" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.cardview.widget.CardView>
