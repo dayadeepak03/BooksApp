@@ -10,7 +10,9 @@ import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.room.Room;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import android.os.Handler;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.TypedValue;
@@ -20,15 +22,14 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.codepaper.booksapp.Adapter.BookListAdapter;
+import com.codepaper.booksapp.Adapter.PostListAdapter;
 import com.codepaper.booksapp.Database.DAO.PostDao;
 import com.codepaper.booksapp.Database.DataSource.BookDatabase;
 import com.codepaper.booksapp.Database.ModelDB.Post;
-import com.codepaper.booksapp.Database.ModelDB.User;
-import com.codepaper.booksapp.Model.BookListModel;
 import com.codepaper.booksapp.R;
+import com.github.ybq.android.spinkit.SpinKitView;
 
-import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -37,12 +38,16 @@ import java.util.List;
 public class BooksFragment extends Fragment {
     View view;
     RecyclerView recyclerView;
-    List<Post> bookListModelList = new ArrayList<>();;
-    BookListAdapter adapter;
+    SwipeRefreshLayout swipeRefreshLayout;
+    private List<Post> postList;
+    PostListAdapter adapter;
     EditText edtSearch;
     TextView homeHeading;
     BookDatabase dataBase;
     PostDao db;
+    Handler handler;
+    SpinKitView progressBar;
+    TextView txtEmptyView;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -55,13 +60,24 @@ public class BooksFragment extends Fragment {
 
     private void initView() {
         recyclerView = view.findViewById(R.id.home_recycler);
+        swipeRefreshLayout = view.findViewById(R.id.home_swipeRefresh);
         edtSearch = view.findViewById(R.id.edt_search);
         homeHeading = view.findViewById(R.id.home_heading);
+        progressBar = view.findViewById(R.id.home_spinKit);
+        txtEmptyView = view.findViewById(R.id.home_txtEmptyView);
 
         implementView();
     }
 
     private void implementView() {
+        handler = new Handler();
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                fillRecyclerView();
+                swipeRefreshLayout.setRefreshing(false);
+            }
+        });
 
         dataBase = Room.databaseBuilder(getActivity(), BookDatabase.class, "mi-database.db")
                 .allowMainThreadQueries()
@@ -96,12 +112,27 @@ public class BooksFragment extends Fragment {
 
     private void fillRecyclerView() {
 
-        Post post = db.getPost();
-        bookListModelList.add(post);
+        progressBar.setVisibility(View.VISIBLE);
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                postList = db.getPost();
+                Collections.reverse(postList);
+                if(postList.size()>0) {
 
-        adapter = new BookListAdapter(getActivity(),bookListModelList);
-        recyclerView.setAdapter(adapter);
-        adapter.notifyDataSetChanged();
+                    adapter = new PostListAdapter(getActivity(), postList);
+                    recyclerView.setAdapter(adapter);
+                    recyclerView.smoothScrollToPosition(0);
+                    adapter.notifyDataSetChanged();
+                    progressBar.setVisibility(View.GONE);
+                }
+                else
+                {
+                    progressBar.setVisibility(View.GONE);
+                    txtEmptyView.setVisibility(View.VISIBLE);
+                }
+            }
+        },1500);
     }
 
     public class GridSpacingItemDecoration extends RecyclerView.ItemDecoration {

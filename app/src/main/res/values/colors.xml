@@ -9,4 +9,5 @@
     <color name="logoColor">#56BAC2</color>
     <color name="logoColor2">#3A3A3C</color>
     <color name="grey">#F3F3F3</color>
+    <color name="light">#F8F8F8</color>
 </resources>

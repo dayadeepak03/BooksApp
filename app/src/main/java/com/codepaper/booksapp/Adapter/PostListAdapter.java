@@ -2,8 +2,11 @@ package com.codepaper.booksapp.Adapter;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.os.Environment;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,47 +23,64 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.codepaper.booksapp.Database.ModelDB.Post;
-import com.codepaper.booksapp.Model.BookListModel;
 import com.codepaper.booksapp.R;
 import com.codepaper.booksapp.Utils.BookListFilter;
 import com.squareup.picasso.Picasso;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.util.List;
 
-public class BookListAdapter extends RecyclerView.Adapter<BookListAdapter.BookListViewHolder> implements Filterable {
+public class PostListAdapter extends RecyclerView.Adapter<PostListAdapter.PostListViewHolder> implements Filterable {
 
     Context mContext;
-    public List<Post> bookModelList,filterList;
-    Post bookListModel;
+    public List<Post> postModelList,filterList;
+    Post postList;
     BookListFilter filter;
+    private static final String IMAGE_DIRECTORY = "/BOOK_IMAGE";
+    File file1;
 
-    public BookListAdapter(Context mContext, List<Post> bookModelList) {
+    public PostListAdapter(Context mContext, List<Post> bookModelList) {
         this.mContext = mContext;
-        this.bookModelList = bookModelList;
+        this.postModelList = bookModelList;
         this.filterList = bookModelList;
         setHasStableIds(true);
     }
 
     @NonNull
     @Override
-    public BookListViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public PostListViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_home_recycler,parent,false);
-        return new BookListViewHolder(view);
+        return new PostListViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull BookListViewHolder holder, final int position) {
-        bookListModel = bookModelList.get(position);
+    public void onBindViewHolder(@NonNull PostListViewHolder holder, final int position) {
+        postList = postModelList.get(position);
+        file1 = new File(Environment.getExternalStorageDirectory() + IMAGE_DIRECTORY);
 
-        /*Picasso.with(mContext)
-                .load(bookListModel.getImgName())
-                .placeholder(R.drawable.load)
-                .into(holder.imgBook);*/
+        if(postList.getImage().equals("No_image"))
+        {
+            Picasso.with(mContext)
+                    .load(R.drawable.no_image)
+                    .placeholder(R.drawable.load)
+                    .into(holder.imgBook);
+        }
+        else {
+            try {
+                File f = new File(file1, postList.getImage() + ".jpg");
+                Bitmap bitmap1 = BitmapFactory.decodeStream(new FileInputStream(f));
+                holder.imgBook.setImageBitmap(bitmap1);
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
+        }
 
-        holder.txtBookName.setText(bookListModel.getTitle());
-        holder.txtAuthor.setText(bookListModel.getAuthor());
+        holder.txtBookName.setText(postList.getTitle());
+        holder.txtAuthor.setText(postList.getAuthor());
 
-        if(bookListModel.getPost_type().equals("sell"))
+        if(postList.getPost_type().equals("sell"))
         {
             holder.imgSell.setVisibility(View.VISIBLE);
             holder.imgExchange.setVisibility(View.GONE);
@@ -74,14 +94,14 @@ public class BookListAdapter extends RecyclerView.Adapter<BookListAdapter.BookLi
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                OpenShowBookDialog(bookModelList.get(position).getTitle(),bookModelList.get(position).getAuthor(),bookModelList.get(position).getPrice());
+                OpenShowBookDialog(postModelList.get(position).getTitle(), postModelList.get(position).getAuthor(), postModelList.get(position).getPrice(), postModelList.get(position).getImage());
             }
         });
     }
 
     @Override
     public int getItemCount() {
-        return bookModelList.size();
+        return postModelList.size();
     }
 
     @Override
@@ -93,10 +113,10 @@ public class BookListAdapter extends RecyclerView.Adapter<BookListAdapter.BookLi
         return filter;
     }
 
-    public class BookListViewHolder extends RecyclerView.ViewHolder {
+    public class PostListViewHolder extends RecyclerView.ViewHolder {
         TextView txtBookName,txtAuthor;
         ImageView imgBook,imgSell,imgExchange;
-        public BookListViewHolder(@NonNull View itemView) {
+        public PostListViewHolder(@NonNull View itemView) {
             super(itemView);
 
             imgBook = itemView.findViewById(R.id.item_home_imgBook);
@@ -117,11 +137,11 @@ public class BookListAdapter extends RecyclerView.Adapter<BookListAdapter.BookLi
         return position;
     }
 
-    public void OpenShowBookDialog(String book,String author,double p) {
+    public void OpenShowBookDialog(String book,String author,double p,String img) {
 
         TextView txtBookName,txtAuthor;
         Button btnBuy,btnLocation,btnDetails;
-        ImageView imgBook,imgClose;
+        ImageView imgPost,imgClose;
         final Dialog dialog=new Dialog(mContext);
         dialog.setCancelable(false);
         dialog.setContentView(R.layout.dialog_showbook);
@@ -138,12 +158,28 @@ public class BookListAdapter extends RecyclerView.Adapter<BookListAdapter.BookLi
         btnDetails = dialog.findViewById(R.id.dialog_showBook_btnDetails);
         txtBookName = dialog.findViewById(R.id.dialog_showBook_txtBookName);
         txtAuthor = dialog.findViewById(R.id.dialog_showBook_txtAuthor);
-        imgBook = dialog.findViewById(R.id.dialog_showBook_imgBook);
+        imgPost = dialog.findViewById(R.id.dialog_showBook_imgBook);
         imgClose = dialog.findViewById(R.id.dialog_showBook_imgClose);
 
         txtBookName.setText(book);
         txtAuthor.setText("By : "+author);
         btnBuy.setText("BUY"+" | $"+p);
+        if(img.equals("No_image"))
+        {
+            Picasso.with(mContext)
+                    .load(R.drawable.no_image)
+                    .placeholder(R.drawable.load)
+                    .into(imgPost);
+        }
+        else {
+            try {
+                File f = new File(file1, img + ".jpg");
+                Bitmap bitmap1 = BitmapFactory.decodeStream(new FileInputStream(f));
+                imgPost.setImageBitmap(bitmap1);
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
+        }
 
         btnLocation.setOnClickListener(new View.OnClickListener() {
             @Override

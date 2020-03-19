@@ -2,19 +2,18 @@ package com.codepaper.booksapp.Utils;
 
 import android.widget.Filter;
 
-import com.codepaper.booksapp.Adapter.BookListAdapter;
+import com.codepaper.booksapp.Adapter.PostListAdapter;
 import com.codepaper.booksapp.Database.ModelDB.Post;
-import com.codepaper.booksapp.Model.BookListModel;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class BookListFilter extends Filter {
 
-   private BookListAdapter adapter;
+   private PostListAdapter adapter;
    private List<Post> filterList;
 
-    public BookListFilter(BookListAdapter adapter, List<Post> filterList) {
+    public BookListFilter(PostListAdapter adapter, List<Post> filterList) {
         this.adapter = adapter;
         this.filterList = filterList;
     }
@@ -47,7 +46,7 @@ public class BookListFilter extends Filter {
 
     @Override
     protected void publishResults(CharSequence constraint, FilterResults results) {
-        adapter.bookModelList = (List<Post>) results.values;
+        adapter.postModelList = (List<Post>) results.values;
         adapter.notifyDataSetChanged();
     }
 }

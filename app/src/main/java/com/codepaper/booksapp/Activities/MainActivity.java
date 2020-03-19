@@ -2,44 +2,27 @@ package com.codepaper.booksapp.Activities;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.DefaultItemAnimator;
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.Dialog;
 import android.content.Intent;
-import android.content.res.Resources;
 import android.graphics.Color;
-import android.graphics.Rect;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextWatcher;
-import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
-import android.widget.TextView;
-import android.widget.Toast;
 
-import com.codepaper.booksapp.Adapter.BookListAdapter;
 import com.codepaper.booksapp.Database.ModelDB.User;
 import com.codepaper.booksapp.Fragments.BooksFragment;
 import com.codepaper.booksapp.Fragments.CartFragment;
 import com.codepaper.booksapp.Fragments.ProfileFragment;
-import com.codepaper.booksapp.Model.BookListModel;
 import com.codepaper.booksapp.R;
 import com.codepaper.booksapp.Storage.SharedPrefManager;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-
-import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 

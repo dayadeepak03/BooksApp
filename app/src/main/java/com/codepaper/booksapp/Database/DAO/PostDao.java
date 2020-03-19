@@ -8,11 +8,16 @@ import androidx.room.Update;
 
 import com.codepaper.booksapp.Database.ModelDB.Post;
 
+import java.util.List;
+
 @Dao
 public interface PostDao {
 
     @Query("SELECT * FROM Post")
-    Post getPost();
+    List<Post> getPost();
+
+    @Query("SELECT * FROM Post where user_id= :id and post_type= :type")
+    List<Post> getPostByType(int id, String type);
 
     @Insert
     void insertPost(Post post);

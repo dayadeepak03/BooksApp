@@ -1,23 +1,17 @@
 package com.codepaper.booksapp.Activities;
 
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-import androidx.room.Room;
-
 import android.Manifest;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.media.MediaScannerConnection;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Handler;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.Gravity;
@@ -28,14 +22,25 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.room.Room;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+
+import com.codepaper.booksapp.Adapter.BookSellAdapter;
 import com.codepaper.booksapp.Database.DAO.PostDao;
 import com.codepaper.booksapp.Database.DataSource.BookDatabase;
 import com.codepaper.booksapp.Database.ModelDB.Post;
 import com.codepaper.booksapp.Model.UserResponse;
 import com.codepaper.booksapp.R;
 import com.codepaper.booksapp.Storage.SharedPrefManager;
+import com.github.ybq.android.spinkit.SpinKitView;
 import com.karumi.dexter.Dexter;
 import com.karumi.dexter.MultiplePermissionsReport;
 import com.karumi.dexter.PermissionToken;
@@ -46,12 +51,9 @@ import com.karumi.dexter.listener.multi.MultiplePermissionsListener;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -61,7 +63,6 @@ public class BookActivity extends AppCompatActivity {
 
     Toolbar toolbar;
     ImageView imgAdd;
-    private PostDao postDao;
     UserResponse userResponse;
     int Userid;
     String curDate;
@@ -72,6 +73,16 @@ public class BookActivity extends AppCompatActivity {
     ImageView imgUpload;
     File wallpaperDirectory;
     String imgName = "No_image";
+    RecyclerView recyclerView;
+    LinearLayoutManager layoutManager;
+    private List<Post> postList;
+    BookDatabase dataBase;
+    PostDao db;
+    BookSellAdapter adapter;
+    SwipeRefreshLayout swipeRefreshLayout;
+    Handler handler;
+    SpinKitView progressBar;
+    TextView txtEmptyView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -82,6 +93,11 @@ public class BookActivity extends AppCompatActivity {
     private void initView() {
         toolbar = findViewById(R.id.book_sale_toolbar);
         imgAdd = findViewById(R.id.book_sale_imgAdd);
+        recyclerView = findViewById(R.id.book_sale_recyclerView);
+        swipeRefreshLayout = findViewById(R.id.book_sale_swipeRefresh);
+        progressBar = findViewById(R.id.book_sale_spinKit);
+        txtEmptyView = findViewById(R.id.book_sale_txtEmptyView);
+        layoutManager = new LinearLayoutManager(this);
         implementView();
     }
 
@@ -92,8 +108,24 @@ public class BookActivity extends AppCompatActivity {
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_back);
         getSupportActionBar().setTitle("");
 
-        postDao = Room.databaseBuilder(this, BookDatabase.class, "mi-database.db").allowMainThreadQueries()
-                .build().getPostDao();
+        layoutManager.setReverseLayout(true);
+        layoutManager.setStackFromEnd(true);
+        recyclerView.setLayoutManager(layoutManager);
+        recyclerView.setHasFixedSize(true);
+
+        handler = new Handler();
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                fillRecyclerView();
+                swipeRefreshLayout.setRefreshing(false);
+            }
+        });
+
+        dataBase = Room.databaseBuilder(this, BookDatabase.class, "mi-database.db")
+                .allowMainThreadQueries()
+                .build();
+        db = dataBase.getPostDao();
 
         userResponse = SharedPrefManager.getInstance(this).getUserId();
         Userid = userResponse.getUser_id();
@@ -104,6 +136,34 @@ public class BookActivity extends AppCompatActivity {
                 OpenAddBookDialog();
             }
         });
+
+        fillRecyclerView();
+    }
+
+    private void fillRecyclerView() {
+
+        progressBar.setVisibility(View.VISIBLE);
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                postList = db.getPostByType(Userid,"sell");
+                if(postList.size()>0) {
+                    Log.d("SIZE", String.valueOf(postList.size()));
+
+                    adapter = new BookSellAdapter(BookActivity.this, postList);
+                    recyclerView.setAdapter(adapter);
+                    recyclerView.smoothScrollToPosition(0);
+                    adapter.notifyDataSetChanged();
+                    progressBar.setVisibility(View.GONE);
+                }
+                else
+                {
+                    progressBar.setVisibility(View.GONE);
+                    txtEmptyView.setVisibility(View.VISIBLE);
+                }
+            }
+        },1500);
+
     }
 
     private void OpenAddBookDialog() {
@@ -158,13 +218,42 @@ public class BookActivity extends AppCompatActivity {
                 String author = edtAuthor.getText().toString().trim();
                 String edition = edtEdition.getText().toString().trim();
                 String isbn = edtISBN.getText().toString().trim();
-                double price = Double.parseDouble(edtPrice.getText().toString().trim());
                 String condition = spnCondition.getSelectedItem().toString();
 
-                Post post = new Post(Userid,postType,title,author,edition,isbn,condition,price,"null","null","null","sell",imgName,curDate);
-                postDao.insertPost(post);
-                Toast.makeText(BookActivity.this, "Post Saved SuccessFully!!", Toast.LENGTH_SHORT).show();
-                dialog.cancel();
+                if(title.equals("")) {
+                    edtTitle.setError("Title is Required");
+                    edtTitle.requestFocus();
+                    return;
+                }else if(author.equals("")) {
+                    edtAuthor.setError("Author is Required");
+                    edtAuthor.requestFocus();
+                    return;
+                }else if(edition.equals("")) {
+                    edtEdition.setError("Edition is Required");
+                    edtEdition.requestFocus();
+                    return;
+                }else if(isbn.equals("")) {
+                    edtISBN.setError("ISBN is Required");
+                    edtISBN.requestFocus();
+                    return;
+                }else if(condition.equals("Select Condition")) {
+                    TextView errorText = (TextView)spnCondition.getSelectedView();
+                    errorText.setError("");
+                    errorText.setTextColor(Color.RED);//just to highlight that this is an error
+                    errorText.setText("Please Select Condition");
+                    return;
+                }else if(edtPrice.getText().toString().equals("")) {
+                    edtPrice.setError("Price is Required");
+                    edtPrice.requestFocus();
+                    return;
+                }else{
+                    double price = Double.parseDouble(edtPrice.getText().toString().trim());
+                    Post post = new Post(Userid,postType,title,author,edition,isbn,condition,price,"null","null","null","sell",imgName,curDate);
+                    db.insertPost(post);
+                    Toast.makeText(BookActivity.this, "Post Saved SuccessFully!!", Toast.LENGTH_SHORT).show();
+                    fillRecyclerView();
+                    dialog.cancel();
+                }
             }
         });
 
@@ -300,21 +389,6 @@ public class BookActivity extends AppCompatActivity {
             e1.printStackTrace();
         }
         return "";
-    }
-
-    private void setImage()
-    {
-        File file1 = new File(Environment.getExternalStorageDirectory() + IMAGE_DIRECTORY);
-        try {
-            File f = new File(file1, "1_5142.jpg");
-            Bitmap bitmap1 = BitmapFactory.decodeStream(new FileInputStream(f));
-            imgUpload.setImageBitmap(bitmap1);
-        }
-        catch (FileNotFoundException e)
-        {
-            e.printStackTrace();
-        }
-
     }
 
     @Override
