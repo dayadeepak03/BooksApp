@@ -62,10 +62,20 @@ public class PostListAdapter extends RecyclerView.Adapter<PostListAdapter.PostLi
 
         if(postList.getImage().equals("No_image"))
         {
-            Picasso.with(mContext)
-                    .load(R.drawable.no_image)
-                    .placeholder(R.drawable.load)
-                    .into(holder.imgBook);
+            if(postList.getPost_type().equals("exchange"))
+            {
+                Picasso.with(mContext)
+                        .load(R.drawable.book_exchange)
+                        .placeholder(R.drawable.load)
+                        .into(holder.imgBook);
+            }
+            else
+            {
+                Picasso.with(mContext)
+                        .load(R.drawable.no_image)
+                        .placeholder(R.drawable.load)
+                        .into(holder.imgBook);
+            }
         }
         else {
             try {
@@ -94,7 +104,7 @@ public class PostListAdapter extends RecyclerView.Adapter<PostListAdapter.PostLi
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                OpenShowBookDialog(postModelList.get(position).getTitle(), postModelList.get(position).getAuthor(), postModelList.get(position).getPrice(), postModelList.get(position).getImage());
+                OpenShowBookDialog(postModelList.get(position).getTitle(), postModelList.get(position).getAuthor(), postModelList.get(position).getPrice(), postModelList.get(position).getImage(), postModelList.get(position).getPost_type());
             }
         });
     }
@@ -137,7 +147,7 @@ public class PostListAdapter extends RecyclerView.Adapter<PostListAdapter.PostLi
         return position;
     }
 
-    public void OpenShowBookDialog(String book,String author,double p,String img) {
+    public void OpenShowBookDialog(String book,String author,double p,String img,String type) {
 
         TextView txtBookName,txtAuthor;
         Button btnBuy,btnLocation,btnDetails;
@@ -166,10 +176,20 @@ public class PostListAdapter extends RecyclerView.Adapter<PostListAdapter.PostLi
         btnBuy.setText("BUY"+" | $"+p);
         if(img.equals("No_image"))
         {
-            Picasso.with(mContext)
-                    .load(R.drawable.no_image)
-                    .placeholder(R.drawable.load)
-                    .into(imgPost);
+            if(type.equals("exchange"))
+            {
+                Picasso.with(mContext)
+                        .load(R.drawable.book_exchange)
+                        .placeholder(R.drawable.load)
+                        .into(imgPost);
+            }
+            else
+            {
+                Picasso.with(mContext)
+                        .load(R.drawable.no_image)
+                        .placeholder(R.drawable.load)
+                        .into(imgPost);
+            }
         }
         else {
             try {
