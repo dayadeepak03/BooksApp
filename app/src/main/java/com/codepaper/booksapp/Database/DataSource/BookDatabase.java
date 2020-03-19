@@ -8,18 +8,21 @@ import androidx.room.Room;
 import androidx.room.RoomDatabase;
 import androidx.sqlite.db.SupportSQLiteDatabase;
 
+import com.codepaper.booksapp.Database.DAO.CartDao;
 import com.codepaper.booksapp.Database.DAO.PostDao;
 import com.codepaper.booksapp.Database.DAO.UserDao;
+import com.codepaper.booksapp.Database.ModelDB.Cart;
 import com.codepaper.booksapp.Database.ModelDB.Post;
 import com.codepaper.booksapp.Database.ModelDB.User;
 
-@Database(entities = {User.class, Post.class}, version = 1,exportSchema = false)
+@Database(entities = {User.class, Post.class, Cart.class}, version = 1,exportSchema = false)
 public abstract class BookDatabase extends RoomDatabase {
 
     private static BookDatabase instance;
 
     public abstract UserDao getUserDao();
     public abstract PostDao getPostDao();
+    public abstract CartDao getCartDao();
 
     public static synchronized BookDatabase getInstance(Context context){
         if(instance==null){
