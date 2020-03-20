@@ -12,20 +12,17 @@ import java.util.List;
 @Dao
 public interface CartDao {
 
-    @Query("SELECT * FROM Cart")
-    List<Cart> getCart();
+    @Query("SELECT * from Cart where user_id=:id")
+    List<Cart> getCart(int id);
 
-    @Query("SELECT COUNT(*) FROM Cart")
-    Cart getCount();
-
-    @Query("DELETE FROM Cart where cart_id=:id")
-    Cart deleteCart(int id);
+    @Query("SELECT COUNT(*) FROM Cart where user_id=:id")
+    int CountItem(int id);
 
     @Insert
     void insertCart(Cart cart);
 
     @Delete
-    void deleteCart(Cart cart);
+    void deleteCartItem(Cart...cart);
 
     @Update
     void updateCart(Cart cart);

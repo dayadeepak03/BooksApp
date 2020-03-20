@@ -132,7 +132,7 @@ public class BooksFragment extends Fragment {
                     txtEmptyView.setVisibility(View.VISIBLE);
                 }
             }
-        },1500);
+        },1000);
     }
 
     public class GridSpacingItemDecoration extends RecyclerView.ItemDecoration {

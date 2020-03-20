@@ -8,12 +8,12 @@ import com.codepaper.booksapp.Database.ModelDB.Post;
 import java.util.ArrayList;
 import java.util.List;
 
-public class BookListFilter extends Filter {
+public class PostListFilter extends Filter {
 
    private PostListAdapter adapter;
    private List<Post> filterList;
 
-    public BookListFilter(PostListAdapter adapter, List<Post> filterList) {
+    public PostListFilter(PostListAdapter adapter, List<Post> filterList) {
         this.adapter = adapter;
         this.filterList = filterList;
     }

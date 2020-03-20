@@ -7,6 +7,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Environment;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,10 +22,17 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.room.Room;
 
+import com.codepaper.booksapp.Database.DAO.CartDao;
+import com.codepaper.booksapp.Database.DAO.PostDao;
+import com.codepaper.booksapp.Database.DataSource.BookDatabase;
+import com.codepaper.booksapp.Database.ModelDB.Cart;
 import com.codepaper.booksapp.Database.ModelDB.Post;
+import com.codepaper.booksapp.Model.UserResponse;
 import com.codepaper.booksapp.R;
-import com.codepaper.booksapp.Utils.BookListFilter;
+import com.codepaper.booksapp.Storage.SharedPrefManager;
+import com.codepaper.booksapp.Utils.PostListFilter;
 import com.squareup.picasso.Picasso;
 
 import java.io.File;
@@ -37,9 +45,11 @@ public class PostListAdapter extends RecyclerView.Adapter<PostListAdapter.PostLi
     Context mContext;
     public List<Post> postModelList,filterList;
     Post postList;
-    BookListFilter filter;
+    PostListFilter filter;
     private static final String IMAGE_DIRECTORY = "/BOOK_IMAGE";
     File file1;
+    BookDatabase dataBase;
+    CartDao db;
 
     public PostListAdapter(Context mContext, List<Post> bookModelList) {
         this.mContext = mContext;
@@ -104,7 +114,7 @@ public class PostListAdapter extends RecyclerView.Adapter<PostListAdapter.PostLi
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                OpenShowBookDialog(postModelList.get(position).getTitle(), postModelList.get(position).getAuthor(), postModelList.get(position).getPrice(), postModelList.get(position).getImage(), postModelList.get(position).getPost_type());
+                OpenShowBookDialog(postModelList.get(position).getTitle(),postModelList.get(position).getUser_id(),postModelList.get(position).getPost_id(), postModelList.get(position).getAuthor(), postModelList.get(position).getPrice(), postModelList.get(position).getImage(), postModelList.get(position).getPost_type());
             }
         });
     }
@@ -118,7 +128,7 @@ public class PostListAdapter extends RecyclerView.Adapter<PostListAdapter.PostLi
     public Filter getFilter() {
         if(filter==null)
         {
-            filter = new BookListFilter(this,filterList);
+            filter = new PostListFilter(this,filterList);
         }
         return filter;
     }
@@ -147,11 +157,13 @@ public class PostListAdapter extends RecyclerView.Adapter<PostListAdapter.PostLi
         return position;
     }
 
-    public void OpenShowBookDialog(String book,String author,double p,String img,String type) {
+    public void OpenShowBookDialog(final String book, final int uId, final int pId, final String author, final double p, final String img, String type) {
 
         TextView txtBookName,txtAuthor;
-        Button btnBuy,btnLocation,btnDetails;
+        final Button btnBuy,btnLocation,btnDetails;
         ImageView imgPost,imgClose;
+        UserResponse userResponse;
+        final int Userid;
         final Dialog dialog=new Dialog(mContext);
         dialog.setCancelable(false);
         dialog.setContentView(R.layout.dialog_showbook);
@@ -164,12 +176,19 @@ public class PostListAdapter extends RecyclerView.Adapter<PostListAdapter.PostLi
         }
 
         btnBuy = dialog.findViewById(R.id.dialog_showBook_btnBuy);
-        btnLocation = dialog.findViewById(R.id.dialog_showBook_btnLocation);
         btnDetails = dialog.findViewById(R.id.dialog_showBook_btnDetails);
         txtBookName = dialog.findViewById(R.id.dialog_showBook_txtBookName);
         txtAuthor = dialog.findViewById(R.id.dialog_showBook_txtAuthor);
         imgPost = dialog.findViewById(R.id.dialog_showBook_imgBook);
         imgClose = dialog.findViewById(R.id.dialog_showBook_imgClose);
+
+        userResponse = SharedPrefManager.getInstance(mContext).getUserId();
+        Userid = userResponse.getUser_id();
+
+        dataBase = Room.databaseBuilder(mContext, BookDatabase.class, "mi-database.db")
+                .allowMainThreadQueries()
+                .build();
+        db = dataBase.getCartDao();
 
         txtBookName.setText(book);
         txtAuthor.setText("By : "+author);
@@ -201,13 +220,6 @@ public class PostListAdapter extends RecyclerView.Adapter<PostListAdapter.PostLi
             }
         }
 
-        btnLocation.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(mContext, "Location", Toast.LENGTH_SHORT).show();
-            }
-        });
-
         btnDetails.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -225,10 +237,23 @@ public class PostListAdapter extends RecyclerView.Adapter<PostListAdapter.PostLi
         btnBuy.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View view) {
-                dialog.cancel();
+                if(btnBuy.getText().toString().equals("Book add to cart"))
+                {
+                    Toast.makeText(mContext, "Book already add to the cart!!", Toast.LENGTH_SHORT).show();
+                }
+                else {
+                    if (Userid == uId) {
+                        Toast.makeText(mContext, "You can't buy your own Book!!", Toast.LENGTH_SHORT).show();
+                    } else if (Userid <= 0) {
+                        Toast.makeText(mContext, "You can Login First!!", Toast.LENGTH_SHORT).show();
+                    } else {
+                        Cart cart = new Cart(pId, Userid, book, author, p, img);
+                        db.insertCart(cart);
+                        btnBuy.setText("Book add to cart");
+                    }
+                }
             }
         });
-
         dialog.show();
     }
 }

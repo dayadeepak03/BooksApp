@@ -1,44 +1,120 @@
 package com.codepaper.booksapp.Adapter;
 
+import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.os.Environment;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.room.Room;
 
+import com.codepaper.booksapp.Database.DAO.CartDao;
+import com.codepaper.booksapp.Database.DataSource.BookDatabase;
+import com.codepaper.booksapp.Database.ModelDB.Cart;
+import com.codepaper.booksapp.Fragments.CartFragment;
 import com.codepaper.booksapp.R;
+import com.codepaper.booksapp.Utils.callTotalUpdate;
+import com.squareup.picasso.Picasso;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.util.List;
 
 public class ShoppingCartAdapter extends RecyclerView.Adapter<ShoppingCartAdapter.ShoppingCartViewHolder> {
+
+    Context mContext;
+    List<Cart> cartList;
+    private static final String IMAGE_DIRECTORY = "/BOOK_IMAGE";
+    File file1;
+    CartFragment fragment;
+    double tot=0.0;
+    BookDatabase dataBase;
+    CartDao db;
+
+    public ShoppingCartAdapter(Context mContext, List<Cart> cartList,CartFragment fragment) {
+        this.mContext = mContext;
+        this.cartList = cartList;
+        this.fragment = fragment;
+    }
 
     @NonNull
     @Override
     public ShoppingCartViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return null;
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_shopping_cart,parent,false);
+        return new ShoppingCartViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ShoppingCartViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull ShoppingCartViewHolder holder, final int position) {
 
+        file1 = new File(Environment.getExternalStorageDirectory() + IMAGE_DIRECTORY);
+
+        try {
+            File f = new File(file1, cartList.get(position).getImage() + ".jpg");
+            Bitmap bitmap1 = BitmapFactory.decodeStream(new FileInputStream(f));
+            holder.imgBook.setImageBitmap(bitmap1);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+
+        holder.txtTitle.setText(cartList.get(position).getTitle());
+        holder.txtAuthor.setText(cartList.get(position).getAuthor());
+        holder.txtPrice.setText("$"+String.valueOf(cartList.get(position).getPrice()));
+
+        tot = tot+cartList.get(position).getPrice();
+
+        if(cartList.size()-1==position) {
+            fragment.totalPrice(tot);
+        }
+
+        holder.imgDelete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                deleteCart(cartList.get(position),position);
+            }
+        });
     }
 
     @Override
     public int getItemCount() {
-        return 0;
+        return cartList.size();
     }
 
     public class ShoppingCartViewHolder extends RecyclerView.ViewHolder {
         ImageView imgBook,imgDelete;
-        TextView txtBookName,txtAuthor,txtprice;
+        TextView txtTitle,txtAuthor, txtPrice;
         public ShoppingCartViewHolder(@NonNull View itemView) {
             super(itemView);
 
             imgBook = itemView.findViewById(R.id.item_shopping_cart_imgBook);
-            txtBookName = itemView.findViewById(R.id.item_shopping_cart_txtBookName);
+            txtTitle = itemView.findViewById(R.id.item_shopping_cart_txtBookName);
             txtAuthor = itemView.findViewById(R.id.item_shopping_cart_txtAuthor);
-            txtprice = itemView.findViewById(R.id.item_shopping_cart_txtprice);
+            txtPrice = itemView.findViewById(R.id.item_shopping_cart_txtprice);
             imgDelete = itemView.findViewById(R.id.item_shopping_cart_imgDelete);
         }
+    }
+
+    private void removeItem(int position) {
+        cartList.remove(position);
+        notifyItemRemoved(position);
+        notifyItemRangeChanged(position, cartList.size());
+    }
+
+    private void deleteCart(Cart cart,int pos) {
+        dataBase = Room.databaseBuilder(mContext, BookDatabase.class, "mi-database.db")
+                .allowMainThreadQueries()
+                .build();
+        db = dataBase.getCartDao();
+        db.deleteCartItem(cart);
+        removeItem(pos);
+        fragment.fillRecyclerView();
     }
 }

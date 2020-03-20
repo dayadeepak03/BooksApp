@@ -162,7 +162,7 @@ public class BookActivity extends AppCompatActivity {
                     txtEmptyView.setVisibility(View.VISIBLE);
                 }
             }
-        },1500);
+        },1000);
 
     }
 

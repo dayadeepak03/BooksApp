@@ -4,8 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
-    tools:context=".Fragments.CartFragment">
+    android:background="@color/white">
 
 
     <ImageView
@@ -87,6 +86,7 @@
         android:layout_height="260dp"
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
+        android:visibility="visible"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/divider2"
@@ -97,19 +97,19 @@
         android:layout_width="0dp"
         android:layout_height="1dp"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="268dp"
         android:layout_marginEnd="16dp"
         android:background="@color/logoColor2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/fragment_cart_recycler" />
+        app:layout_constraintTop_toBottomOf="@+id/divider2" />
 
     <TextView
         android:id="@+id/fragment_cart_txtTotal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:text="$12.75"
+        android:text="$ 0.0"
         android:textColor="@color/logoColor2"
         android:textSize="18sp"
         android:textStyle="bold"
@@ -173,4 +173,43 @@
             android:paddingRight="60dp"
             android:src="@drawable/paypal" />
     </LinearLayout>
+
+    <ImageView
+        android:id="@+id/fragment_cart_imgEmpty"
+        android:layout_width="200dp"
+        android:layout_height="100dp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toTopOf="@+id/divider3"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/divider2"
+        app:layout_constraintVertical_bias="0.44"
+        app:srcCompat="@drawable/empty_crt" />
+
+    <TextView
+        android:id="@+id/fragment_cart_txtEmptyCart"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:text="Cart is Empty"
+        android:textColor="@color/logoColor2"
+        android:textStyle="bold"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/fragment_cart_imgEmpty" />
+
+    <com.github.ybq.android.spinkit.SpinKitView
+        android:id="@+id/fragment_cart_spinKit"
+        style="@style/SpinKitView.Large.ThreeBounce"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:visibility="gone"
+        app:SpinKit_Color="@color/logoColor2"
+        app:layout_constraintBottom_toTopOf="@+id/divider3"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/divider2">
+    </com.github.ybq.android.spinkit.SpinKitView>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -136,7 +136,7 @@ public class BookExchangeActivity extends AppCompatActivity {
                     txtEmptyView.setVisibility(View.VISIBLE);
                 }
             }
-        },1500);
+        },1000);
     }
 
     private void OpenAddExchangeDialog() {
