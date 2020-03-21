@@ -74,10 +74,13 @@ public class BookSellAdapter extends RecyclerView.Adapter<BookSellAdapter.BookSe
         if(post.getStatus().equals("sell"))
         {
             holder.txtTag.setText("POSTED");
+            holder.txtTag.setTextColor(mContext.getResources().getColor(R.color.correct));
+
         }
         else
         {
-            holder.txtTag.setText("SOLD");
+            holder.txtTag.setVisibility(View.GONE);
+            holder.imgSold.setVisibility(View.VISIBLE);
         }
 
     }
@@ -88,7 +91,7 @@ public class BookSellAdapter extends RecyclerView.Adapter<BookSellAdapter.BookSe
     }
 
     public class BookSellViewHolder extends RecyclerView.ViewHolder {
-        ImageView imgView;
+        ImageView imgView,imgSold;
         TextView txtTitle,txtAuthor,txtPrice,txtTag,txtDate;
         public BookSellViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -98,6 +101,7 @@ public class BookSellAdapter extends RecyclerView.Adapter<BookSellAdapter.BookSe
             txtPrice = itemView.findViewById(R.id.item_book_sale_txtPrice);
             txtTag = itemView.findViewById(R.id.item_book_sale_txtTag);
             txtDate = itemView.findViewById(R.id.item_book_sale_txtDate);
+            imgSold = itemView.findViewById(R.id.item_book_sale_imgSold);
         }
     }
 

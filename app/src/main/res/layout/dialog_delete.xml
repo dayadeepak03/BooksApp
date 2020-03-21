@@ -15,14 +15,14 @@
         android:padding="10dp">
 
         <TextView
-            android:id="@+id/dialog_signOut_txtHeading"
+            android:id="@+id/dialog_delete_txtHeading"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="8dp"
             android:gravity="center"
-            android:text="Are you sure you want to logout?"
+            android:text="Are you sure you want to remove?"
             android:textColor="@android:color/black"
             android:textSize="18sp"
             app:layout_constraintEnd_toEndOf="parent"
@@ -39,10 +39,10 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/dialog_signOut_txtHeading">
+            app:layout_constraintTop_toBottomOf="@+id/dialog_delete_txtHeading">
 
             <Button
-                android:id="@+id/dialog_signOut_btndelete"
+                android:id="@+id/dialog_delete_btnYes"
                 android:layout_width="wrap_content"
                 android:layout_height="40dp"
                 android:background="@color/TextColor"
@@ -51,7 +51,7 @@
                 android:textStyle="bold" />
 
             <Button
-                android:id="@+id/dialog_signOut_btnCancel"
+                android:id="@+id/dialog_delete_btnNo"
                 android:layout_width="wrap_content"
                 android:layout_height="40dp"
                 android:layout_marginLeft="30dp"

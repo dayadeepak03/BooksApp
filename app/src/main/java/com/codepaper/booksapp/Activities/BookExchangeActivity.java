@@ -114,7 +114,7 @@ public class BookExchangeActivity extends AppCompatActivity {
         fillRecyclerView();
     }
 
-    private void fillRecyclerView() {
+    public void fillRecyclerView() {
 
         progressBar.setVisibility(View.VISIBLE);
         handler.postDelayed(new Runnable() {

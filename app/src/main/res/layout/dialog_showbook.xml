@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_gravity="center"
     android:layout_margin="30dp"
-    app:cardBackgroundColor="@color/grey"
+    app:cardBackgroundColor="@color/white"
     app:cardCornerRadius="10dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -42,7 +43,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:text="The Design of Everyday Things"
-            android:textColor="@color/logoColor2"
+            android:textColor="@color/colorAccent"
             android:textSize="16sp"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
@@ -55,7 +56,9 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
             android:text="By : Don Normon"
-            android:textStyle="italic"
+            android:textColor="@color/TextColor"
+            android:textSize="14sp"
+            android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/dialog_showBook_txtBookName" />
@@ -71,11 +74,11 @@
             android:background="@drawable/login_background"
             android:text="BUY | $52.00"
             android:textColor="@color/white"
-            android:textStyle="italic"
+            android:textStyle="italic|bold"
             app:layout_constraintBottom_toTopOf="@+id/linearLayout3"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/dialog_showBook_txtAuthor"
+            app:layout_constraintTop_toBottomOf="@+id/dialog_showBook_txtPrice"
             app:layout_constraintVertical_bias="1.0" />
 
         <LinearLayout
@@ -98,8 +101,23 @@
                 android:layout_weight="1"
                 android:background="@drawable/location_background"
                 android:text="Details"
-                android:textColor="@color/TextColor" />
+                android:textColor="@color/TextColor"
+                android:textStyle="italic|bold"
+                android:visibility="gone" />
         </LinearLayout>
+
+        <TextView
+            android:id="@+id/dialog_showBook_txtPrice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:text="Price : $25.25"
+            android:textColor="@color/logoColor2"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/dialog_showBook_txtAuthor" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.cardview.widget.CardView>

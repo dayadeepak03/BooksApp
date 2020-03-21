@@ -13,6 +13,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -20,14 +21,17 @@ import android.widget.Toast;
 import com.codepaper.booksapp.Adapter.PostListAdapter;
 import com.codepaper.booksapp.Adapter.ShoppingCartAdapter;
 import com.codepaper.booksapp.Database.DAO.CartDao;
+import com.codepaper.booksapp.Database.DAO.PostDao;
 import com.codepaper.booksapp.Database.DataSource.BookDatabase;
 import com.codepaper.booksapp.Database.ModelDB.Cart;
+import com.codepaper.booksapp.Database.ModelDB.Post;
 import com.codepaper.booksapp.Model.UserResponse;
 import com.codepaper.booksapp.R;
 import com.codepaper.booksapp.Storage.SharedPrefManager;
 import com.codepaper.booksapp.Utils.callTotalUpdate;
 import com.github.ybq.android.spinkit.SpinKitView;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -50,6 +54,10 @@ public class CartFragment extends Fragment implements callTotalUpdate {
     SpinKitView progressBar;
     UserResponse userResponse;
     int Userid;
+    Button btnCheckOut;
+    private List<Post> postList;
+    PostDao pd;
+    List<Integer> idList = new ArrayList<Integer>();
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -67,6 +75,7 @@ public class CartFragment extends Fragment implements callTotalUpdate {
         txtEmptyCart = view.findViewById(R.id.fragment_cart_txtEmptyCart);
         txtTotal = view.findViewById(R.id.fragment_cart_txtTotal);
         progressBar = view.findViewById(R.id.fragment_cart_spinKit);
+        btnCheckOut = view.findViewById(R.id.fragment_cart_btnCheckOut);
         layoutManager = new LinearLayoutManager(getActivity());
         implementView();
     }
@@ -77,6 +86,7 @@ public class CartFragment extends Fragment implements callTotalUpdate {
                 .allowMainThreadQueries()
                 .build();
         db = dataBase.getCartDao();
+        pd = dataBase.getPostDao();
 
         userResponse = SharedPrefManager.getInstance(getActivity()).getUserId();
         Userid = userResponse.getUser_id();
@@ -98,6 +108,27 @@ public class CartFragment extends Fragment implements callTotalUpdate {
             }
         });
 
+        btnCheckOut.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                cartList = db.getCart(Userid);
+                if(cartList.size()==0)
+                {
+                    btnCheckOut.setEnabled(false);
+                }else {
+                    for (int i = 0; i < cartList.size(); i++) {
+                        idList.add(cartList.get(i).post_id);
+                    }
+                    pd.UpdatePostStatus(idList, "sold");
+                    db.emptyCart();
+                    cartList.clear();
+                    recyclerView.smoothScrollToPosition(0);
+                    adapter.notifyDataSetChanged();
+                    fillRecyclerView();
+                }
+            }
+        });
+
         fillRecyclerView();
     }
 
@@ -108,10 +139,8 @@ public class CartFragment extends Fragment implements callTotalUpdate {
             @Override
             public void run() {
                 cartList = db.getCart(Userid);
-                Log.d("SIZE",String.valueOf(cartList.size()));
                 Collections.reverse(cartList);
                 if(cartList.size()>0) {
-
                     adapter = new ShoppingCartAdapter(getActivity(), cartList,CartFragment.this);
                     recyclerView.setAdapter(adapter);
                     recyclerView.smoothScrollToPosition(0);

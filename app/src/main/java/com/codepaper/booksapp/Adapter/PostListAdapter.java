@@ -7,7 +7,6 @@ import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Environment;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -25,10 +24,11 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.room.Room;
 
 import com.codepaper.booksapp.Database.DAO.CartDao;
-import com.codepaper.booksapp.Database.DAO.PostDao;
+import com.codepaper.booksapp.Database.DAO.UserDao;
 import com.codepaper.booksapp.Database.DataSource.BookDatabase;
 import com.codepaper.booksapp.Database.ModelDB.Cart;
 import com.codepaper.booksapp.Database.ModelDB.Post;
+import com.codepaper.booksapp.Database.ModelDB.User;
 import com.codepaper.booksapp.Model.UserResponse;
 import com.codepaper.booksapp.R;
 import com.codepaper.booksapp.Storage.SharedPrefManager;
@@ -50,6 +50,7 @@ public class PostListAdapter extends RecyclerView.Adapter<PostListAdapter.PostLi
     File file1;
     BookDatabase dataBase;
     CartDao db;
+    UserDao ud;
 
     public PostListAdapter(Context mContext, List<Post> bookModelList) {
         this.mContext = mContext;
@@ -114,7 +115,12 @@ public class PostListAdapter extends RecyclerView.Adapter<PostListAdapter.PostLi
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                OpenShowBookDialog(postModelList.get(position).getTitle(),postModelList.get(position).getUser_id(),postModelList.get(position).getPost_id(), postModelList.get(position).getAuthor(), postModelList.get(position).getPrice(), postModelList.get(position).getImage(), postModelList.get(position).getPost_type());
+                if(postModelList.get(position).getPost_type().equals("exchange"))
+                {
+                    OpenShowExchangeDialog(postModelList.get(position).getTitle(), postModelList.get(position).getAuthor(),postModelList.get(position).getCondition(),postModelList.get(position).getOffer_title(), postModelList.get(position).getOffer_author(),postModelList.get(position).getOffer_condition(), postModelList.get(position).getStatus(),postModelList.get(position).getUser_id());
+                }else {
+                    OpenShowBookDialog(postModelList.get(position).getTitle(), postModelList.get(position).getUser_id(), postModelList.get(position).getPost_id(), postModelList.get(position).getAuthor(), postModelList.get(position).getPrice(), postModelList.get(position).getImage(), postModelList.get(position).getPost_type(), postModelList.get(position).getStatus());
+                }
             }
         });
     }
@@ -157,9 +163,9 @@ public class PostListAdapter extends RecyclerView.Adapter<PostListAdapter.PostLi
         return position;
     }
 
-    public void OpenShowBookDialog(final String book, final int uId, final int pId, final String author, final double p, final String img, String type) {
+    public void OpenShowBookDialog(final String book, final int uId, final int pId, final String author, final double p, final String img, String type, String status) {
 
-        TextView txtBookName,txtAuthor;
+        TextView txtBookName,txtAuthor,txtPrice;
         final Button btnBuy,btnLocation,btnDetails;
         ImageView imgPost,imgClose;
         UserResponse userResponse;
@@ -181,6 +187,7 @@ public class PostListAdapter extends RecyclerView.Adapter<PostListAdapter.PostLi
         txtAuthor = dialog.findViewById(R.id.dialog_showBook_txtAuthor);
         imgPost = dialog.findViewById(R.id.dialog_showBook_imgBook);
         imgClose = dialog.findViewById(R.id.dialog_showBook_imgClose);
+        txtPrice = dialog.findViewById(R.id.dialog_showBook_txtPrice);
 
         userResponse = SharedPrefManager.getInstance(mContext).getUserId();
         Userid = userResponse.getUser_id();
@@ -191,8 +198,16 @@ public class PostListAdapter extends RecyclerView.Adapter<PostListAdapter.PostLi
         db = dataBase.getCartDao();
 
         txtBookName.setText(book);
-        txtAuthor.setText("By : "+author);
-        btnBuy.setText("BUY"+" | $"+p);
+        txtAuthor.setText("Author : "+author);
+        txtPrice.setText("Price : $"+p);
+        if (status.equals("sell")) {
+            btnBuy.setText("ADD TO CART");
+        }else {
+            btnBuy.setBackground(mContext.getDrawable(R.drawable.location_background));
+            btnBuy.setTextColor(mContext.getResources().getColor(R.color.colorAccent));
+            btnBuy.setText("Sold Out");
+        }
+
         if(img.equals("No_image"))
         {
             if(type.equals("exchange"))
@@ -237,7 +252,7 @@ public class PostListAdapter extends RecyclerView.Adapter<PostListAdapter.PostLi
         btnBuy.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View view) {
-                if(btnBuy.getText().toString().equals("Book add to cart"))
+                if(btnBuy.getText().toString().equals("Book added to cart"))
                 {
                     Toast.makeText(mContext, "Book already add to the cart!!", Toast.LENGTH_SHORT).show();
                 }
@@ -249,9 +264,76 @@ public class PostListAdapter extends RecyclerView.Adapter<PostListAdapter.PostLi
                     } else {
                         Cart cart = new Cart(pId, Userid, book, author, p, img);
                         db.insertCart(cart);
-                        btnBuy.setText("Book add to cart");
+                        btnBuy.setBackground(mContext.getDrawable(R.drawable.location_background));
+                        btnBuy.setTextColor(mContext.getResources().getColor(R.color.colorAccent));
+                        btnBuy.setText("Book added to cart");
                     }
                 }
+            }
+        });
+        dialog.show();
+    }
+
+    public void OpenShowExchangeDialog(String book, String author, String condition, String offer_title, String offer_author, String offer_condition, final String status, final int id) {
+
+        TextView txtTitle,txtAuthor,txtCondition,txtTitle1,txtAuthor1,txtCondition1;
+        final Button btnDetails;
+        ImageView imgClose;
+        final Dialog dialog=new Dialog(mContext);
+        dialog.setCancelable(false);
+        dialog.setContentView(R.layout.dialog_showexchange);
+        if (dialog.getWindow()!=null)
+        {
+            dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+            dialog.getWindow().setLayout(WindowManager.LayoutParams.MATCH_PARENT,WindowManager.LayoutParams.WRAP_CONTENT);
+            WindowManager.LayoutParams params=dialog.getWindow().getAttributes();
+            params.gravity= Gravity.CENTER_VERTICAL;
+        }
+
+        imgClose = dialog.findViewById(R.id.dialog_showExchange_imgClose);
+        txtTitle = dialog.findViewById(R.id.dialog_showExchange_txtBookName);
+        txtAuthor = dialog.findViewById(R.id.dialog_showExchange_txtAuthor);
+        txtCondition = dialog.findViewById(R.id.dialog_showExchange_txtCondition);
+        txtTitle1 = dialog.findViewById(R.id.dialog_showExchange_txtBookName2);
+        txtAuthor1 = dialog.findViewById(R.id.dialog_showExchange_txtAuthor2);
+        txtCondition1 = dialog.findViewById(R.id.dialog_showExchange_txtCondition2);
+        btnDetails = dialog.findViewById(R.id.dialog_showExchange_btnDetails);
+
+        dataBase = Room.databaseBuilder(mContext, BookDatabase.class, "mi-database.db")
+                .allowMainThreadQueries()
+                .build();
+        ud = dataBase.getUserDao();
+
+        txtTitle.setText(book);
+        txtAuthor.setText(author);
+        txtCondition.setText(condition);
+        txtTitle1.setText(offer_title);
+        txtAuthor1.setText(offer_author);
+        txtCondition1.setText(offer_condition);
+
+        if(status.equals("exchanged"))
+        {
+            btnDetails.setBackground(mContext.getDrawable(R.drawable.location_background));
+            btnDetails.setTextColor(mContext.getResources().getColor(R.color.colorAccent));
+            btnDetails.setText("EXCHANGED");
+            btnDetails.setEnabled(false);
+        }
+
+        imgClose.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.cancel();
+            }
+        });
+
+        btnDetails.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                User user = ud.getUserInfo(id);
+                String phone = user.getPhone();
+                String email = user.getEmail();
+                btnDetails.setText("Email : " + email + "\nPhone : " + phone);
+                btnDetails.setEnabled(false);
             }
         });
         dialog.show();

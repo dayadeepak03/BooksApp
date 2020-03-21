@@ -18,6 +18,9 @@ public interface CartDao {
     @Query("SELECT COUNT(*) FROM Cart where user_id=:id")
     int CountItem(int id);
 
+    @Query("DELETE FROM Cart")
+    void emptyCart();
+
     @Insert
     void insertCart(Cart cart);
 

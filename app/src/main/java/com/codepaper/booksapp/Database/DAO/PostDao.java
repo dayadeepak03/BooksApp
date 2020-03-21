@@ -19,6 +19,12 @@ public interface PostDao {
     @Query("SELECT * FROM Post where user_id= :id and post_type= :type")
     List<Post> getPostByType(int id, String type);
 
+    @Query("UPDATE Post set status= :status where post_id IN (:ids) ")
+    void UpdatePostStatus(List<Integer> ids, String status);
+
+    @Query("UPDATE Post set status= :status where post_id= :id")
+    void UpdateExchangePost(int id, String status);
+
     @Insert
     void insertPost(Post post);
 

@@ -1,12 +1,18 @@
 package com.codepaper.booksapp.Adapter;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Environment;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -56,13 +62,21 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<ShoppingCartAdapte
     public void onBindViewHolder(@NonNull ShoppingCartViewHolder holder, final int position) {
 
         file1 = new File(Environment.getExternalStorageDirectory() + IMAGE_DIRECTORY);
-
-        try {
-            File f = new File(file1, cartList.get(position).getImage() + ".jpg");
-            Bitmap bitmap1 = BitmapFactory.decodeStream(new FileInputStream(f));
-            holder.imgBook.setImageBitmap(bitmap1);
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
+        if(cartList.get(position).getImage().equals("No_image"))
+        {
+                Picasso.with(mContext)
+                        .load(R.drawable.no_image)
+                        .placeholder(R.drawable.load)
+                        .into(holder.imgBook);
+        }
+        else {
+            try {
+                File f = new File(file1, cartList.get(position).getImage() + ".jpg");
+                Bitmap bitmap1 = BitmapFactory.decodeStream(new FileInputStream(f));
+                holder.imgBook.setImageBitmap(bitmap1);
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
         }
 
         holder.txtTitle.setText(cartList.get(position).getTitle());
@@ -78,7 +92,7 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<ShoppingCartAdapte
         holder.imgDelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                deleteCart(cartList.get(position),position);
+                OpenDeleteDialog(cartList.get(position),position);
             }
         });
     }
@@ -108,13 +122,43 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<ShoppingCartAdapte
         notifyItemRangeChanged(position, cartList.size());
     }
 
-    private void deleteCart(Cart cart,int pos) {
-        dataBase = Room.databaseBuilder(mContext, BookDatabase.class, "mi-database.db")
-                .allowMainThreadQueries()
-                .build();
-        db = dataBase.getCartDao();
-        db.deleteCartItem(cart);
-        removeItem(pos);
-        fragment.fillRecyclerView();
+    private void OpenDeleteDialog(final Cart cart,final int pos) {
+
+        Button btnYes,btnNo;
+        final Dialog dialog=new Dialog(mContext);
+        dialog.setCancelable(false);
+        dialog.setContentView(R.layout.dialog_delete);
+        if (dialog.getWindow()!=null)
+        {
+            dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+            dialog.getWindow().setLayout(WindowManager.LayoutParams.MATCH_PARENT,WindowManager.LayoutParams.WRAP_CONTENT);
+            WindowManager.LayoutParams params=dialog.getWindow().getAttributes();
+            params.gravity= Gravity.CENTER_VERTICAL;
+        }
+
+        btnYes = dialog.findViewById(R.id.dialog_delete_btnYes);
+        btnNo = dialog.findViewById(R.id.dialog_delete_btnNo);
+
+        btnNo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.cancel();
+            }
+        });
+
+        btnYes.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dataBase = Room.databaseBuilder(mContext, BookDatabase.class, "mi-database.db")
+                        .allowMainThreadQueries()
+                        .build();
+                db = dataBase.getCartDao();
+                db.deleteCartItem(cart);
+                removeItem(pos);
+                fragment.fillRecyclerView();
+                dialog.cancel();
+            }
+        });
+        dialog.show();
     }
 }

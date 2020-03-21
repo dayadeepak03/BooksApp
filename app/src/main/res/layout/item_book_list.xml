@@ -28,7 +28,7 @@
         android:layout_marginEnd="8dp"
         android:text="The Design of Everyday Things"
         android:textColor="@color/logoColor2"
-        app:layout_constraintEnd_toStartOf="@+id/item_book_sale_txtTag"
+        app:layout_constraintEnd_toStartOf="@+id/item_book_sale_imgSold"
         app:layout_constraintStart_toEndOf="@+id/item_book_sale_imgBook"
         app:layout_constraintTop_toTopOf="@+id/item_book_sale_imgBook" />
 
@@ -69,13 +69,13 @@
         android:id="@+id/item_book_sale_txtTag"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
         android:text="SOLD"
         android:textColor="@color/colorAccent"
         android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 
     <TextView
         android:id="@+id/item_book_sale_txtDate"
@@ -86,7 +86,18 @@
         android:text="2020-03-15"
         android:textColor="@color/TextColor"
         android:textStyle="bold"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
+
+    <ImageView
+        android:id="@+id/item_book_sale_imgSold"
+        android:layout_width="90dp"
+        android:layout_height="50dp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/sold" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
