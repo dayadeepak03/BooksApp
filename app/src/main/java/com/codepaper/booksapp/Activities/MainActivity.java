@@ -19,6 +19,7 @@ import android.widget.Spinner;
 import com.codepaper.booksapp.Database.ModelDB.User;
 import com.codepaper.booksapp.Fragments.BooksFragment;
 import com.codepaper.booksapp.Fragments.CartFragment;
+import com.codepaper.booksapp.Fragments.DiscoverFragment;
 import com.codepaper.booksapp.Fragments.ProfileFragment;
 import com.codepaper.booksapp.R;
 import com.codepaper.booksapp.Storage.SharedPrefManager;
@@ -31,6 +32,7 @@ public class MainActivity extends AppCompatActivity {
     BooksFragment booksFragment = new BooksFragment();
     CartFragment cartFragment = new CartFragment();
     ProfileFragment profileFragment = new ProfileFragment();
+    DiscoverFragment discoverFragment = new DiscoverFragment();
     User user;
     SharedPrefManager sharedPrefManager;
     @Override
@@ -76,7 +78,7 @@ public class MainActivity extends AppCompatActivity {
                         getSupportFragmentManager().beginTransaction().replace(R.id.frameContainer,profileFragment).commit();
                         return true;
                     case R.id.nav_filters:
-                        OpenFilterDialog();
+                        getSupportFragmentManager().beginTransaction().replace(R.id.frameContainer,discoverFragment).commit();
                         return true;
                 }
                 return false;
@@ -85,46 +87,4 @@ public class MainActivity extends AppCompatActivity {
 
         bottomNavigationView.setSelectedItemId(R.id.nav_home);
     }
-
-    public void OpenFilterDialog() {
-
-        Spinner spnLocation,spnPrice,spnCondition,spnSortBy;
-        Button btnApply;
-        ImageView imgClose;
-        final Dialog dialog=new Dialog(this);
-        dialog.setCancelable(false);
-        dialog.setContentView(R.layout.dialog_filter);
-        if (dialog.getWindow()!=null)
-        {
-            dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-            dialog.getWindow().setLayout(WindowManager.LayoutParams.MATCH_PARENT,WindowManager.LayoutParams.WRAP_CONTENT);
-            WindowManager.LayoutParams params=dialog.getWindow().getAttributes();
-            params.gravity= Gravity.CENTER_VERTICAL;
-        }
-
-
-        imgClose = dialog.findViewById(R.id.dialog_filter_imgBack);
-        btnApply = dialog.findViewById(R.id.dialog_filter_btnApply);
-        spnLocation = dialog.findViewById(R.id.dialog_filter_spnLocation);
-        spnPrice = dialog.findViewById(R.id.dialog_filter_spnPrice);
-        spnCondition = dialog.findViewById(R.id.dialog_filter_spnCondition);
-        spnSortBy = dialog.findViewById(R.id.dialog_filter_spnSortBy);
-
-        imgClose.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                dialog.cancel();
-            }
-        });
-
-        btnApply.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dialog.cancel();
-            }
-        });
-
-        dialog.show();
-    }
-
 }

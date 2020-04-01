@@ -5,8 +5,8 @@
         android:icon="@drawable/ic_home"
         android:title="Home" />
 
-<!--    <item android:id="@+id/nav_exchange"
-        android:icon="@drawable/exchange"
+ <!--  <item android:id="@+id/nav_exchange"
+        android:icon="@drawable/cart"
         android:title="Exchange" />-->
 
     <item android:id="@+id/nav_cart"
@@ -22,6 +22,6 @@
         android:title="Profile" />
 
     <item android:id="@+id/nav_filters"
-        android:icon="@drawable/filter"
-        android:title="Filters" />
+        android:icon="@drawable/ic_discover"
+        android:title="Discover" />
 </menu>

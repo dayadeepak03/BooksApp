@@ -1,6 +1,5 @@
 package com.codepaper.booksapp.Fragments;
 
-
 import android.app.Dialog;
 import android.content.res.Resources;
 import android.graphics.Color;
@@ -43,7 +42,8 @@ import java.util.List;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class BooksFragment extends Fragment {
+public class DiscoverFragment extends Fragment {
+
     View view;
     RecyclerView recyclerView;
     SwipeRefreshLayout swipeRefreshLayout;
@@ -58,24 +58,25 @@ public class BooksFragment extends Fragment {
     TextView txtEmptyView;
     ImageView imgNotification,imgFilter;
 
+    public DiscoverFragment() {
+        // Required empty public constructor
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        view = inflater.inflate(R.layout.fragment_books, container, false);
+        view = inflater.inflate(R.layout.fragment_discover, container, false);
         initView();
         return view;
     }
 
     private void initView() {
-        recyclerView = view.findViewById(R.id.home_recycler);
-        swipeRefreshLayout = view.findViewById(R.id.home_swipeRefresh);
-        edtSearch = view.findViewById(R.id.edt_search);
-        homeHeading = view.findViewById(R.id.home_heading);
-        progressBar = view.findViewById(R.id.home_spinKit);
-        txtEmptyView = view.findViewById(R.id.home_txtEmptyView);
-        imgNotification = view.findViewById(R.id.home_notification);
-        imgFilter = view.findViewById(R.id.home_filter);
+        recyclerView = view.findViewById(R.id.discover_recycler);
+        swipeRefreshLayout = view.findViewById(R.id.discover_swipeRefresh);
+        edtSearch = view.findViewById(R.id.discover_search);
+        progressBar = view.findViewById(R.id.discover_spinKit);
+        txtEmptyView = view.findViewById(R.id.discover_txtEmptyView);
 
         implementView();
     }
@@ -98,7 +99,7 @@ public class BooksFragment extends Fragment {
 
         RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(getActivity(), 2);
         recyclerView.setLayoutManager(mLayoutManager);
-        recyclerView.addItemDecoration(new BooksFragment.GridSpacingItemDecoration(2, dpToPx(10), true));
+        recyclerView.addItemDecoration(new DiscoverFragment.GridSpacingItemDecoration(2, dpToPx(10), true));
         recyclerView.setItemAnimator(new DefaultItemAnimator());
 
         fillRecyclerView();
@@ -119,20 +120,6 @@ public class BooksFragment extends Fragment {
             @Override
             public void afterTextChanged(Editable s) {
 
-            }
-        });
-
-        imgNotification.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                OpenNotificationDialog();
-            }
-        });
-
-        imgFilter.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                OpenFilterDialog();
             }
         });
     }
@@ -201,75 +188,4 @@ public class BooksFragment extends Fragment {
         Resources r = getResources();
         return Math.round(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, r.getDisplayMetrics()));
     }
-
-    public void OpenFilterDialog() {
-
-        Spinner spnLocation,spnPrice,spnCondition,spnSortBy;
-        Button btnApply;
-        ImageView imgClose;
-        final Dialog dialog=new Dialog(getActivity());
-        dialog.setCancelable(false);
-        dialog.setContentView(R.layout.dialog_filter);
-        if (dialog.getWindow()!=null)
-        {
-            dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-            dialog.getWindow().setLayout(WindowManager.LayoutParams.MATCH_PARENT,WindowManager.LayoutParams.WRAP_CONTENT);
-            WindowManager.LayoutParams params=dialog.getWindow().getAttributes();
-            params.gravity= Gravity.CENTER_VERTICAL;
-        }
-
-
-        imgClose = dialog.findViewById(R.id.dialog_filter_imgBack);
-        btnApply = dialog.findViewById(R.id.dialog_filter_btnApply);
-        spnLocation = dialog.findViewById(R.id.dialog_filter_spnLocation);
-        spnPrice = dialog.findViewById(R.id.dialog_filter_spnPrice);
-        spnCondition = dialog.findViewById(R.id.dialog_filter_spnCondition);
-        spnSortBy = dialog.findViewById(R.id.dialog_filter_spnSortBy);
-
-        imgClose.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                dialog.cancel();
-            }
-        });
-
-        btnApply.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dialog.cancel();
-            }
-        });
-
-        dialog.show();
-    }
-
-    public void OpenNotificationDialog() {
-
-        Spinner spnLocation,spnPrice,spnCondition,spnSortBy;
-        Button btnApply;
-        ImageView imgClose;
-        final Dialog dialog=new Dialog(getActivity());
-        dialog.setCancelable(false);
-        dialog.setContentView(R.layout.dialog_notification);
-        if (dialog.getWindow()!=null)
-        {
-            dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-            dialog.getWindow().setLayout(WindowManager.LayoutParams.MATCH_PARENT,WindowManager.LayoutParams.WRAP_CONTENT);
-            WindowManager.LayoutParams params=dialog.getWindow().getAttributes();
-            params.gravity= Gravity.CENTER_VERTICAL;
-        }
-
-
-        imgClose = dialog.findViewById(R.id.dialog_notification_imgClose);
-
-        imgClose.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                dialog.cancel();
-            }
-        });
-
-        dialog.show();
-    }
-
 }
